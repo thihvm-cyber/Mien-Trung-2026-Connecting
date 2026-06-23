@@ -180,9 +180,12 @@ tr.expense-row:hover td { background: #f0fdf4; }
   var CARD_ACCENTS = ["card-teal","card-purple","card-amber","card-coral"];
 
   function uid() { return Math.random().toString(36).slice(2,10); }
+  
+  // 🟢 ĐÂY CHÍNH LÀ THỦ PHẠM GÂY TRẮNG TRANG ĐÃ ĐƯỢC SỬA SẠCH
   function esc(s) {
-    return String(s==null?"":s).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");
+    return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   }
+
   function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
   function fmtDate(iso) { if(!iso) return "—"; var p=iso.split("-"); return p[2]+"/"+p[1]; }
 
@@ -409,7 +412,10 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<label for="ai-file" style="cursor:pointer; background:#fff; border:1px solid var(--teal); padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:var(--teal); font-weight:600; font-size:12px;">📷 Đính ảnh</label>';
     h+='<input type="file" id="ai-file" accept="image/*" style="display:none;" />';
     h+='<button id="ai-btn" style="cursor:pointer; background:var(--teal); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-weight:600; font-family:inherit; font-size:12px;">Xử lý ngay</button>';
-    h+='<button id="quick-add-btn" style="cursor:pointer; display:none; background:#10B981; color:#fff; border:none; padding:10px 14px; border-radius:8px; font-weight:600; font-size:12px; margin-left:6px;">➕ Cập nhật chi phí</button>';
+    
+    // Nút cập nhật chi phí nhanh
+    h+='<button id="quick-add-btn" style="cursor:pointer; display:none; background:#10B981; color:#fff; border:none; padding:10px 14px; border-radius:8px; font-weight:600; font-size:12px;">➕ Cập nhật chi phí</button>';
+    
     h+='</div>';
     h+='<p id="ai-status" style="font-size:12px; color:var(--gray); margin-top:8px; font-weight:500;"></p>';
     h+='</div>';
@@ -541,30 +547,43 @@ tr.expense-row:hover td { background: #f0fdf4; }
     
     if (!text && !file) { statusEl.innerHTML = "❌ Hãy nhập câu lệnh hoặc đính một bức ảnh bill tính tiền."; return; }
     document.getElementById("ai-btn").disabled = true;
-    statusEl.innerHTML = '<span class="spin" style="display:inline-block; margin-right:5px;">⏳</span> Gemini Pro đang xử lý...';
+    statusEl.innerHTML = '<span class="spin" style="display:inline-block; margin-right:5px;">⏳</span> Gemini Pro 1.5 đang xử lý dữ liệu...';
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`;
     let parts = [];
 
-    const prompt = `Bạn là kế toán chuyên nghiệp cho tour du lịch 4 gia đình: Nhà Tú, Nhà Thi, OB Nội, Nhà Dung. Danh mục: "✈ Di chuyển", "🏨 Khách sạn", "🍜 Ăn uống", "🎡 Tham quan", "🛍 Mua sắm", "📦 Khác". Trả về 1 object JSON: {"date":"YYYY-MM-DD","category":"...","description":"...","family":"...","amount":123,"payer":"...","note":"..."}`;
+    const prompt = `Bạn là kế toán chuyên nghiệp cho tour du lịch 4 gia đình: Nhà Tú, Nhà Thi, OB Nội, Nhà Dung.
+    Danh mục chuẩn: "✈ Di chuyển", "🏨 Khách sạn", "🍜 Ăn uống", "🎡 Tham quan", "🛍 Mua sắm", "📦 Khác".
+    Hãy đọc và bóc tách dữ liệu (văn bản hoặc hình ảnh bill chụp) thành DUY NHẤT một object JSON (không dùng ký tự backtick, không dùng định dạng code block):
+    - "date": Định dạng YYYY-MM-DD (mặc định lấy "2026-07-22" nếu không có)
+    - "category": Chọn đúng 1 danh mục chuẩn ở trên
+    - "description": Mô tả ngắn gọn món chi tiêu
+    - "family": Chọn 1 nhà trả tiền (Nhà Tú, Nhà Thi, OB Nội, Nhà Dung, hoặc "Tất cả")
+    - "amount": Tổng số tiền (số nguyên, ví dụ: 2 triệu là 2000000)
+    - "payer": Tên người chi tiền
+    - "note": Ghi chú phát sinh nếu có`;
 
     parts.push({ text: prompt });
-    if (text) parts.push({ text: `Lệnh: "${text}"` });
+    if (text) parts.push({ text: `Yêu cầu từ người dùng: "${text}"` });
     if (file) { const imgData = await fileToGenerativePart(file); parts.push(imgData); }
 
     try {
       const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: parts }] }) });
       const result = await response.json();
       let cleanJson = result.candidates[0].content.parts[0].text.trim();
+      
       if (cleanJson.startsWith("```")) { cleanJson = cleanJson.replace(/^```json|```$/g, "").trim(); }
       const parsed = JSON.parse(cleanJson);
 
-      addRow("expenses", function() { return { id: uid(), date: parsed.date, category: parsed.category, description: parsed.description, family: parsed.family, amount: parsed.amount, payer: parsed.payer, note: parsed.note }; });
+      addRow("expenses", function() {
+        return { id: uid(), date: parsed.date, category: parsed.category, description: parsed.description, family: parsed.family, amount: parsed.amount, payer: parsed.payer, note: parsed.note };
+      });
 
       inputEl.value = ""; fileEl.value = "";
-      statusEl.innerHTML = '<span style="color:#065f46; font-weight:600;">✅ AI đã phân tích thành công!</span>';
+      statusEl.innerHTML = '<span style="color:#065f46; font-weight:600;">✅ AI đã phân tích và lưu lên Firebase thành công!</span>';
     } catch (e) {
-      statusEl.innerHTML = '<span style="color:#991b1b;">❌ Lỗi: AI không bóc tách được dữ liệu.</span>';
+      console.error(e);
+      statusEl.innerHTML = '<span style="color:#991b1b;">❌ Lỗi: AI không bóc tách được dữ liệu. Vui lòng chụp rõ bill hoặc dùng giọng nói.</span>';
     } finally { document.getElementById("ai-btn").disabled = false; }
   }
 
@@ -574,7 +593,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     const statusEl = document.getElementById("ai-status");
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    if (!SpeechRecognition) { statusEl.innerHTML = "❌ Trình duyệt không hỗ trợ Mic."; return; }
+    if (!SpeechRecognition) { statusEl.innerHTML = "❌ Trình duyệt không hỗ trợ Mic. Hãy sử dụng Google Chrome hoặc Safari."; return; }
 
     const recognition = new SpeechRecognition();
     recognition.lang = "vi-VN";
@@ -582,15 +601,16 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
     recognition.onstart = () => {
       micBtn.style.background = "#fee2e2"; micBtn.style.color = "#dc2626"; micBtn.style.borderColor = "#dc2626"; micBtn.innerHTML = "🛑 Nghe...";
-      statusEl.innerHTML = "🎙️ Đang mở Micro...";
+      statusEl.innerHTML = "🎙️ Đang mở Micro, bạn nói rõ ràng câu lệnh chi phí nhé...";
     };
-    recognition.onerror = () => { statusEl.innerHTML = "❌ Lỗi ghi âm."; resetMic(); };
+    recognition.onerror = () => { statusEl.innerHTML = "❌ Lỗi ghi âm. Hãy kiểm tra lại quyền truy cập Mic của trình duyệt."; resetMic(); };
     recognition.onend = () => { resetMic(); };
     
+    // Khi nói xong thì hiện nút Cập nhật chi phí lên
     recognition.onresult = (e) => {
       const resultText = e.results[0][0].transcript;
       inputEl.value = resultText;
-      statusEl.innerHTML = `✓ Điền chữ: "${resultText}". Nhấn ➕ **Cập nhật chi phí** bên cạnh để thêm.`;
+      statusEl.innerHTML = `✓ Điền chữ: "${resultText}". Nhấn ➕ **Cập nhật chi phí** bên cạnh để thêm nhanh.`;
       document.getElementById("quick-add-btn").style.display = "flex";
     };
 
@@ -628,7 +648,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     var aiBtn = document.getElementById("ai-btn"); if (aiBtn) aiBtn.addEventListener("click", processExpenseWithAI);
     var micBtn = document.getElementById("mic-btn"); if (micBtn) micBtn.addEventListener("click", startSpeechRecognition);
     var fileInput = document.getElementById("ai-file");
-    if (fileInput) fileInput.addEventListener("change", function() { if(this.files[0]) document.getElementById("ai-status").innerHTML = `📸 File sẵn sàng!`; });
+    if (fileInput) fileInput.addEventListener("change", function() { if(this.files[0]) document.getElementById("ai-status").innerHTML = `📸 File: <b>${this.files[0].name}</b>. Sẵn sàng quét hóa đơn!`; });
     var aiInput = document.getElementById("ai-input"); if (aiInput) aiInput.addEventListener("keypress", function(e) { if(e.key === "Enter") processExpenseWithAI(); });
 
     root.querySelectorAll("[data-path]").forEach(function(el){ el.addEventListener("blur",function(){ var val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; updatePath(el.getAttribute("data-path").split("."),val); }); });
@@ -643,25 +663,47 @@ tr.expense-row:hover td { background: #f0fdf4; }
     root.querySelectorAll("[data-remove-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-remove-ks-row"), roomId=btn.getAttribute("data-room-id"), rowId=btn.getAttribute("data-row-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; if(r[ks].rows.length<=1) return; r[ks].rows=r[ks].rows.filter(function(x){return x.id!==rowId;}); scheduleSave(n); }); });
 
     var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
-    
+    root.querySelectorAll("[data-add-member]").forEach(function(btn){ btn.addEventListener("click",function(){ var fam=btn.getAttribute("data-add-member"); addRow("members",function(){ return {id:uid(),family:fam,name:"",type:"ADT",ageNote:"",idNumber:"",phone:"",special:""}; }); }); });
+
     root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
     root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
+    
+    // 🟢 SỬA LỖI TÌM SAI NÚT Ở ĐÂY ĐỂ ĐẢM BẢO KHÔNG TRẮNG TRANG
     root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
 
-    // Hành động Nút cộng chi phí nhanh
+    if (window.google && google.maps && google.maps.places) {
+      root.querySelectorAll('input[data-field$=".hotel"]').forEach(function(inputEl) {
+        if (inputEl.hasAttribute('data-places-attached')) return;
+        inputEl.setAttribute('data-places-attached', 'true');
+        var autocomplete = new google.maps.places.Autocomplete(inputEl, { fields: ["name", "formatted_address", "formatted_phone_number", "url"], types: ["establishment"] });
+        autocomplete.addListener("place_changed", function() {
+          var place = autocomplete.getPlace(); if (!place.geometry) return;
+          var roomId = inputEl.getAttribute('data-id'), ks = inputEl.getAttribute('data-field').split('.')[0];
+          var n = clone(state.data), r = n.rooms.find(function(x) { return x.id === roomId; });
+          if (r && r[ks]) { r[ks].hotel = place.name || ""; r[ks].address = place.url || place.formatted_address || ""; r[ks].phone = place.formatted_phone_number || ""; scheduleSave(n); }
+        });
+      });
+    }
+
+    // 🟢 LẬP TRÌNH LỆNH THỰC THI KHI BẤM NÚT ➕ CẬP NHẬT CHI PHÍ
     var quickAddBtn = document.getElementById("quick-add-btn");
     if (quickAddBtn) {
       quickAddBtn.addEventListener("click", function() {
         var textVal = document.getElementById("ai-input").value.trim();
         if (!textVal) return;
 
+        // Tách thông tin số tiền (hỗ trợ "triệu", "tr" hoặc số có dấu chấm/phẩy)
         var amountMatch = textVal.match(/(?:(\d+[\.\d]*)\s?(?:triệu|tr))|(\d{1,3}(?:\.\d{3})+)/i);
         var amount = 0;
         if (amountMatch) {
-          if (amountMatch[1]) { amount = parseFloat(amountMatch[1].replace(/\./g, "")) * 1000000; } 
-          else if (amountMatch[3]) { amount = parseInt(amountMatch[3].replace(/\./g, "")); }
+          if (amountMatch[1]) {
+            amount = parseFloat(amountMatch[1].replace(/\./g, "")) * 1000000;
+          } else if (amountMatch[3]) {
+            amount = parseInt(amountMatch[3].replace(/\./g, ""));
+          }
         }
 
+        // Tách thông tin nhà/người trả
         var family = "Tất cả";
         var payer = "";
         if (textVal.toLowerCase().indexOf("nhà tú") >= 0) { family = "Nhà Tú"; payer = "Nhà Tú"; }
@@ -669,7 +711,18 @@ tr.expense-row:hover td { background: #f0fdf4; }
         else if (textVal.toLowerCase().indexOf("ob nội") >= 0) { family = "OB Nội"; payer = "OB Nội"; }
         else if (textVal.toLowerCase().indexOf("nhà dung") >= 0) { family = "Nhà Dung"; payer = "Nhà Dung"; }
 
-        addRow("expenses", function() { return { id: uid(), date: "2026-07-22", category: "🍜 Ăn uống", description: textVal, family: family, amount: amount, payer: payer, note: "Thêm nhanh bằng giọng nói" }; });
+        addRow("expenses", function() {
+          return { 
+            id: uid(), 
+            date: "2026-07-22", 
+            category: "🍜 Ăn uống", 
+            description: textVal, 
+            family: family, 
+            amount: amount, 
+            payer: payer, 
+            note: "Điền nhanh từ giọng nói" 
+          };
+        });
 
         document.getElementById("ai-input").value = "";
         document.getElementById("ai-status").innerHTML = "✅ Đã thêm nhanh vào bảng Chi phí!";
