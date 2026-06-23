@@ -115,9 +115,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shado
 .add-btn { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; border: 1.5px dashed var(--border-md); border-radius: var(--radius-md); padding: 9px 14px; background: transparent; color: var(--gray); margin-top: 12px; cursor: pointer; font-family: inherit; transition: all 0.15s; width: 100%; justify-content: center; }
 .add-btn:hover { background: var(--gray-l); border-color: var(--teal); color: var(--teal); }
 
-.map-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--teal); text-decoration: none; padding: 6px 10px; background: var(--teal-l); border-radius: var(--radius-sm); border: 1px solid rgba(29,158,117,0.2); white-space: nowrap; transition: all 0.15s; }
-.map-link:hover { background: #c6f6e0; }
-
 .day-index { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--teal), var(--purple)); box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
 .night-index { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--amber), var(--coral)); box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
 .warn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
@@ -174,14 +171,18 @@ tr.expense-row:hover td { background: #f0fdf4; }
   var EXPENSE_CATEGORIES = ["✈ Di chuyển","🏨 Khách sạn","🍜 Ăn uống","🎡 Tham quan","🛍 Mua sắm","📦 Khác"];
   var ROOM_STATUS = ["Chờ xác nhận","Đã xác nhận","Đã hủy"];
   var MEMBER_TYPES = ["ADT","CHD"];
-  var FAM_AVATARS = ["fav-1","fav-2","fav-3","fav-4"];
-  var CARD_ACCENTS = ["card-teal","card-purple","card-amber","card-coral"];
 
   function uid() { return Math.random().toString(36).slice(2,10); }
 
+  // 🟢 HÀM BẢO VỆ CHỮ ĐÃ ĐƯỢC TÁCH CHUỖI ĐỂ TRÁNH LỖI NGOẶC KÉP CỦA KHUNG CHAT
   function esc(s) {
     if (s == null) return "";
-    return String(s).replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, """).replace(/'/g, "'");
+    return String(s)
+      .replace(/&/g, "&"+"amp;")
+      .replace(/</g, "&"+"lt;")
+      .replace(/>/g, "&"+"gt;")
+      .replace(/"/g, "&"+"quot;")
+      .replace(/'/g, "&"+"#39;");
   }
 
   function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
@@ -376,20 +377,18 @@ tr.expense-row:hover td { background: #f0fdf4; }
   function itinLocationsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.locations||[]).reduce(function(s2,l){return s2+(Number(l.cost)||0);},0); },0); }
   function itinMealsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.meals||[]).reduce(function(s2,m){return s2+(Number(m.cost)||0);},0); },0); }
 
-  // 🟢 HÀM ĐƯỢC VIẾT LẠI HOÀN TOÀN ĐỂ CỘNG GỘP CHÍNH XÁC MỌI TAB
   function renderOverview(){
     var data=state.data;
     var totalGuests=data.families.reduce(function(s,f){return s+f.adt+f.chd+f.senior;},0);
     
-    // Tự động gộp dữ liệu các tab con
+    // Cộng dồn mọi ngóc ngách
     var locTotal=itinLocationsTotal();
     var mealTotal=itinMealsTotal();
     var roomTotal=data.rooms.reduce(function(s,r){return s+roomNightTotal(r);},0);
     var roomPF=data.families.map(function(f){return roomCostByFamily(f.name);});
     var otherTotal=Number(data.otherCost)||0;
-    
-    // Tự động cộng toàn bộ tab Chi phí
     var expensesTotal = data.expenses.reduce(function(s,e){return s+(Number(e.amount)||0);},0);
+    
     var grandTotal=locTotal+mealTotal+roomTotal+otherTotal+expensesTotal;
     
     var h="";
@@ -428,7 +427,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
     });
     h+='<tr class="total-row"><td>Tổng cộng</td><td colspan="3"></td><td style="text-align:center;color:#075E6B">'+totalGuests+'</td><td></td></tr></tbody></table></div></div>';
 
-    // 🟢 BẢNG TỔNG HỢP GỘP CHI PHÍ CÁC TAB
     h+='<div class="card card-amber">';
     h+='<div class="card-title"><span class="card-title-dot dot-amber"></span>Tổng hợp chi phí theo hạng mục</div>';
     h+='<div style="overflow-x:auto"><table><thead><tr><th>Hạng mục</th>';
@@ -436,10 +434,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<th style="text-align:right">Tổng</th></tr></thead><tbody>';
 
     EXPENSE_CATEGORIES.forEach(function(cat) {
-      // Lấy chi phí từ tab Chi phí
       var catSum = data.expenses.filter(function(e){ return e.category === cat; }).reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
-      
-      // Lấy chi phí mồi từ các tab Lịch trình / Khách sạn
       var extraSum = 0;
       var pfExtra = data.families.map(function(){ return 0; }); 
       if (cat === "🏨 Khách sạn") { extraSum = roomTotal; pfExtra = roomPF; }
@@ -460,7 +455,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<tr><td>📌 Tự nhập / Dự phòng</td>'; 
     data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); 
     h+='<td style="text-align:right"><input class="needs-fill" data-path="otherCost" data-type="number" value="'+otherTotal+'" style="width:120px;text-align:right;font-weight:600;color:#C73E2E" /></td></tr>';
-
     h+='<tr class="total-row"><td colspan="'+(data.families.length+1)+'" style="text-align:right">Tổng chi phí</td><td style="text-align:right;color:#C73E2E">'+vnd(grandTotal)+'</td></tr></tbody></table></div><p style="font-size:12px;color:#B4B2A9;margin-top:8px;">Bảng đã cộng dồn tự động dữ liệu từ tab Lịch trình, Khách sạn và mọi khoản thu chi phát sinh trong tab Chi phí.</p></div>';
 
     h+='<div class="card card-coral">';
@@ -515,11 +509,10 @@ tr.expense-row:hover td { background: #f0fdf4; }
       var nightTotal=roomNightTotal(r), nightDeposit=roomNightDeposit(r);
       h+='<div class="card card-amber"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="night-index">'+r.nightIndex+'</div><input type="date" data-row="rooms" data-id="'+r.id+'" data-field="date" value="'+esc(r.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="text-align:right;"><div style="font-size:15px;font-weight:700;color:#8A5A00;">'+vnd(nightTotal)+'</div><div style="font-size:11px;color:#888780;">Cọc: '+vnd(nightDeposit)+' · Còn: '+vnd(nightTotal-nightDeposit)+'</div></div><button class="icon-btn" data-remove="rooms" data-id="'+r.id+'" title="Xóa đêm này">'+icon("trash")+'</button></div><div class="grid-2">';
       ["ksA","ksB"].forEach(function(ks,ksi){
-        var k=safeKs(r,ks), mapsUrl = k.address ? (/^https?:\/\//.test(k.address) ? k.address : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(k.address)) : null, ksSub = k.rows.reduce(function(s,row){return s+rowTotal(row);},0), ksDep = k.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0);
+        var k=safeKs(r,ks), ksSub = k.rows.reduce(function(s,row){return s+rowTotal(row);},0), ksDep = k.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0);
         h+='<div style="border:1px solid var(--border);border-radius:var(--radius-md);padding:10px;"><div style="font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">🏨 Khách sạn '+(ksi===0?"A":"B")+'</div>';
-        h+='<input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.hotel" value="'+esc(k.hotel)+'" placeholder="Tên khách sạn (Tự tra bản đồ gợi ý)" class="'+((!k.hotel)?"needs-fill":"")+'" style="font-weight:500;margin-bottom:6px;" />';
+        h+='<input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.hotel" value="'+esc(k.hotel)+'" placeholder="Tên khách sạn" class="'+((!k.hotel)?"needs-fill":"")+'" style="font-weight:500;margin-bottom:6px;" />';
         h+='<div class="grid-2" style="gap:6px;margin-bottom:6px;"><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.address" value="'+esc(k.address)+'" placeholder="Địa chỉ tự điền" style="font-size:11px;" readonly /><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.phone" value="'+esc(k.phone)+'" placeholder="SĐT tự điền" style="font-size:11px;" readonly /></div>';
-        if(mapsUrl && k.address) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-bottom:8px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
         h+='<div style="overflow-x:auto;"><table style="font-size:11px;"><thead><tr>';
         
         ["Nhà","Giá/đêm","Cọc","Còn",""].forEach(function(col){ var align=(col==="Giá/đêm"||col==="Cọc"||col==="Còn")?"right":"left"; h+='<th style="padding:4px 6px;text-align:'+align+';">'+col+'</th>'; }); 
@@ -682,20 +675,17 @@ tr.expense-row:hover td { background: #f0fdf4; }
     root.querySelectorAll("[data-remove-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-remove-ks-row"), roomId=btn.getAttribute("data-room-id"), rowId=btn.getAttribute("data-row-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; if(r[ks].rows.length<=1) return; r[ks].rows=r[ks].rows.filter(function(x){return x.id!==rowId;}); scheduleSave(n); }); });
 
     var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
-    root.querySelectorAll("[data-add-member]").forEach(function(btn){ btn.addEventListener("click",function(){ var fam=btn.getAttribute("data-add-member"); addRow("members",function(){ return {id:uid(),family:fam,name:"",type:"ADT",ageNote:"",idNumber:"",phone:"",special:""}; }); }); });
-
+    
     root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
     root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
     root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
 
-    // 🟢 LẬP TRÌNH BÓC TÁCH VÀ LÀM SẠCH MÔ TẢ CHO NÚT ➕ CẬP NHẬT CHI PHÍ
     var quickAddBtn = document.getElementById("quick-add-btn");
     if (quickAddBtn) {
       quickAddBtn.addEventListener("click", function() {
         var textVal = document.getElementById("ai-input").value.trim();
         if (!textVal) return;
 
-        // 1. Tự động tìm NGÀY
         var dateVal = "2026-07-22"; 
         var dateMatch = textVal.match(/(?:ngày\s+)(\d{1,2})(?:\s+tháng\s+(\d{1,2}))?/i) || textVal.match(/\b(\d{1,2})\/(\d{1,2})\b/);
         if (dateMatch) {
@@ -706,7 +696,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
           dateVal = "2026-" + mm + "-" + dd;
         }
 
-        // 2. Tự động tìm SỐ TIỀN
         var amount = 0;
         var amtMatch = textVal.match(/(\d+[\.,]?\d*)\s*(triệu|tr\b|k\b|ngàn)/i);
         if (amtMatch) {
@@ -719,7 +708,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
           if (rawMatch) amount = parseInt(rawMatch[1].replace(/[\.,]/g, ""));
         }
 
-        // 3. Tự động tìm NHÀ TRẢ TIỀN
         var family = "Tất cả";
         var payer = "";
         if (textVal.toLowerCase().indexOf("nhà tú") >= 0) { family = "Nhà Tú"; payer = "Nhà Tú"; }
@@ -727,7 +715,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
         else if (textVal.toLowerCase().indexOf("ob nội") >= 0) { family = "OB Nội"; payer = "OB Nội"; }
         else if (textVal.toLowerCase().indexOf("nhà dung") >= 0) { family = "Nhà Dung"; payer = "Nhà Dung"; }
 
-        // 4. Tự động tìm HẠNG MỤC
         var category = "📦 Khác"; 
         var lowerText = textVal.toLowerCase();
         if (lowerText.match(/ăn|uống|hải sản|bún|phở|nước|nhậu|cafe|sáng|trưa|tối/)) category = "🍜 Ăn uống";
@@ -736,7 +723,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
         else if (lowerText.match(/khách sạn|phòng|nhà nghỉ|resort/)) category = "🏨 Khách sạn";
         else if (lowerText.match(/mua|quà|chợ/)) category = "🛍 Mua sắm";
 
-        // 5. LÀM SẠCH MÔ TẢ (Lọc thêm chữ đồng/đ)
         var cleanDesc = textVal;
         cleanDesc = cleanDesc.replace(/(?:ngày\s+)?\d{1,2}(?:\s+tháng\s+\d{1,2})?/gi, "");
         cleanDesc = cleanDesc.replace(/\b\d{1,2}\/\d{1,2}\b/g, "");
@@ -750,7 +736,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
           cleanDesc = "Chi phí";
         }
 
-        // 6. Lưu vào Firebase
         addRow("expenses", function() {
           return { 
             id: uid(), 
