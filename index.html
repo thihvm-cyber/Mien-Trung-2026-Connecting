@@ -181,7 +181,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
   function esc(s) {
     if (s == null) return "";
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    return String(s).replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, """).replace(/'/g, "'");
   }
 
   function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
@@ -373,24 +373,25 @@ tr.expense-row:hover td { background: #f0fdf4; }
     return h+'</div>';
   }
 
-  function catTotals(){
-    return EXPENSE_CATEGORIES.map(function(cat){
-      var pf=state.data.families.map(function(f){ return state.data.expenses.filter(function(e){return e.category===cat&&e.family===f.name;}).reduce(function(s,e){return s+(Number(e.amount)||0);},0); });
-      return {cat:cat,pf:pf,total:pf.reduce(function(s,v){return s+v;},0)};
-    });
-  }
   function itinLocationsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.locations||[]).reduce(function(s2,l){return s2+(Number(l.cost)||0);},0); },0); }
   function itinMealsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.meals||[]).reduce(function(s2,m){return s2+(Number(m.cost)||0);},0); },0); }
 
+  // 🟢 HÀM ĐƯỢC VIẾT LẠI HOÀN TOÀN ĐỂ CỘNG GỘP CHÍNH XÁC MỌI TAB
   function renderOverview(){
     var data=state.data;
     var totalGuests=data.families.reduce(function(s,f){return s+f.adt+f.chd+f.senior;},0);
+    
+    // Tự động gộp dữ liệu các tab con
     var locTotal=itinLocationsTotal();
     var mealTotal=itinMealsTotal();
     var roomTotal=data.rooms.reduce(function(s,r){return s+roomNightTotal(r);},0);
     var roomPF=data.families.map(function(f){return roomCostByFamily(f.name);});
     var otherTotal=Number(data.otherCost)||0;
-    var grandTotal=locTotal+mealTotal+roomTotal+otherTotal;
+    
+    // Tự động cộng toàn bộ tab Chi phí
+    var expensesTotal = data.expenses.reduce(function(s,e){return s+(Number(e.amount)||0);},0);
+    var grandTotal=locTotal+mealTotal+roomTotal+otherTotal+expensesTotal;
+    
     var h="";
 
     h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.25rem;">';
@@ -405,7 +406,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<div class="card card-teal" style="background: linear-gradient(135deg, #E0F7FA, #fff);">';
     h+='<div class="card-title"><span class="card-title-dot dot-teal"></span>Nhập liệu thông minh bằng AI Gemini Pro</div>';
     h+='<div style="display:flex; gap:8px; align-items: center; flex-wrap: wrap;">';
-    h+='<input id="ai-input" placeholder="Nói hoặc nhập lệnh... (VD: Ăn trưa hải sản 2.500.000 nhà Tú)" style="flex:1; min-width:220px; padding:10px; border-radius:8px;" />';
+    h+='<input id="ai-input" placeholder="Nói hoặc nhập lệnh... (VD: Tham quan ngày 24 tháng 7 là 500k)" style="flex:1; min-width:220px; padding:10px; border-radius:8px;" />';
     h+='<button id="mic-btn" type="button" style="cursor:pointer; background:#fff; border:1px solid #7c3aed; padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:#7c3aed; font-weight:600; font-family:inherit; font-size:12px;">🎙️ Nói</button>';
     h+='<label for="ai-file" style="cursor:pointer; background:#fff; border:1px solid var(--teal); padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:var(--teal); font-weight:600; font-size:12px;">📷 Đính ảnh</label>';
     h+='<input type="file" id="ai-file" accept="image/*" style="display:none;" />';
@@ -427,16 +428,40 @@ tr.expense-row:hover td { background: #f0fdf4; }
     });
     h+='<tr class="total-row"><td>Tổng cộng</td><td colspan="3"></td><td style="text-align:center;color:#075E6B">'+totalGuests+'</td><td></td></tr></tbody></table></div></div>';
 
+    // 🟢 BẢNG TỔNG HỢP GỘP CHI PHÍ CÁC TAB
     h+='<div class="card card-amber">';
     h+='<div class="card-title"><span class="card-title-dot dot-amber"></span>Tổng hợp chi phí theo hạng mục</div>';
     h+='<div style="overflow-x:auto"><table><thead><tr><th>Hạng mục</th>';
     data.families.forEach(function(f){ h+='<th style="text-align:right">'+esc(f.name)+'</th>'; });
     h+='<th style="text-align:right">Tổng</th></tr></thead><tbody>';
-    h+='<tr><td>📍 Địa điểm</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(locTotal)+'</td></tr>';
-    h+='<tr><td>🍜 Ăn uống</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(mealTotal)+'</td></tr>';
-    h+='<tr><td>🏨 Khách sạn</td>'; roomPF.forEach(function(v){ h+='<td style="text-align:right">'+vnd(v)+'</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(roomTotal)+'</td></tr>';
-    h+='<tr><td>📦 Khác</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right"><input class="needs-fill" data-path="otherCost" data-type="number" value="'+otherTotal+'" style="width:120px;text-align:right;font-weight:600;color:#C73E2E" /></td></tr>';
-    h+='<tr class="total-row"><td colspan="'+(data.families.length+1)+'" style="text-align:right">Tổng chi phí</td><td style="text-align:right;color:#C73E2E">'+vnd(grandTotal)+'</td></tr></tbody></table></div><p style="font-size:12px;color:#B4B2A9;margin-top:8px;">Địa điểm/Ăn uống cộng từ tab Lịch trình · Khách sạn cộng từ tab Phòng ốc · Khác tự nhập.</p></div>';
+
+    EXPENSE_CATEGORIES.forEach(function(cat) {
+      // Lấy chi phí từ tab Chi phí
+      var catSum = data.expenses.filter(function(e){ return e.category === cat; }).reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
+      
+      // Lấy chi phí mồi từ các tab Lịch trình / Khách sạn
+      var extraSum = 0;
+      var pfExtra = data.families.map(function(){ return 0; }); 
+      if (cat === "🏨 Khách sạn") { extraSum = roomTotal; pfExtra = roomPF; }
+      else if (cat === "🍜 Ăn uống") { extraSum = mealTotal; }
+      else if (cat === "🎡 Tham quan") { extraSum = locTotal; }
+      
+      var rowTotal = catSum + extraSum;
+
+      h += '<tr><td>' + esc(cat) + '</td>';
+      data.families.forEach(function(f, i) {
+          var famExp = data.expenses.filter(function(e){ return e.category === cat && e.family === f.name; }).reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
+          var val = famExp + pfExtra[i];
+          h += '<td style="text-align:right;' + (val>0?"":"color:#B4B2A9") + '">' + (val>0 ? vnd(val) : "—") + '</td>';
+      });
+      h += '<td style="text-align:right;font-weight:600;color:#C73E2E">' + vnd(rowTotal) + '</td></tr>';
+    });
+
+    h+='<tr><td>📌 Tự nhập / Dự phòng</td>'; 
+    data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); 
+    h+='<td style="text-align:right"><input class="needs-fill" data-path="otherCost" data-type="number" value="'+otherTotal+'" style="width:120px;text-align:right;font-weight:600;color:#C73E2E" /></td></tr>';
+
+    h+='<tr class="total-row"><td colspan="'+(data.families.length+1)+'" style="text-align:right">Tổng chi phí</td><td style="text-align:right;color:#C73E2E">'+vnd(grandTotal)+'</td></tr></tbody></table></div><p style="font-size:12px;color:#B4B2A9;margin-top:8px;">Bảng đã cộng dồn tự động dữ liệu từ tab Lịch trình, Khách sạn và mọi khoản thu chi phát sinh trong tab Chi phí.</p></div>';
 
     h+='<div class="card card-coral">';
     h+='<div class="card-title"><span class="card-title-dot dot-coral"></span>Theo dõi thanh toán</div>';
@@ -601,7 +626,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
     recognition.onerror = () => { statusEl.innerHTML = "❌ Lỗi ghi âm. Hãy kiểm tra lại quyền truy cập Mic của trình duyệt."; resetMic(); };
     recognition.onend = () => { resetMic(); };
     
-    // Khi nói xong thì hiện nút Cập nhật chi phí lên
     recognition.onresult = (e) => {
       const resultText = e.results[0][0].transcript;
       inputEl.value = resultText;
@@ -658,7 +682,8 @@ tr.expense-row:hover td { background: #f0fdf4; }
     root.querySelectorAll("[data-remove-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-remove-ks-row"), roomId=btn.getAttribute("data-room-id"), rowId=btn.getAttribute("data-row-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; if(r[ks].rows.length<=1) return; r[ks].rows=r[ks].rows.filter(function(x){return x.id!==rowId;}); scheduleSave(n); }); });
 
     var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
-    
+    root.querySelectorAll("[data-add-member]").forEach(function(btn){ btn.addEventListener("click",function(){ var fam=btn.getAttribute("data-add-member"); addRow("members",function(){ return {id:uid(),family:fam,name:"",type:"ADT",ageNote:"",idNumber:"",phone:"",special:""}; }); }); });
+
     root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
     root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
     root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
@@ -670,7 +695,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
         var textVal = document.getElementById("ai-input").value.trim();
         if (!textVal) return;
 
-        // 1. Tự động tìm NGÀY (Hỗ trợ: "ngày 23 tháng 7", "24/7", "ngày 25")
+        // 1. Tự động tìm NGÀY
         var dateVal = "2026-07-22"; 
         var dateMatch = textVal.match(/(?:ngày\s+)(\d{1,2})(?:\s+tháng\s+(\d{1,2}))?/i) || textVal.match(/\b(\d{1,2})\/(\d{1,2})\b/);
         if (dateMatch) {
@@ -681,7 +706,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
           dateVal = "2026-" + mm + "-" + dd;
         }
 
-        // 2. Tự động tìm SỐ TIỀN (Hỗ trợ: "2 triệu", "1.5 tr", "500k", "2.000.000")
+        // 2. Tự động tìm SỐ TIỀN
         var amount = 0;
         var amtMatch = textVal.match(/(\d+[\.,]?\d*)\s*(triệu|tr\b|k\b|ngàn)/i);
         if (amtMatch) {
@@ -702,26 +727,35 @@ tr.expense-row:hover td { background: #f0fdf4; }
         else if (textVal.toLowerCase().indexOf("ob nội") >= 0) { family = "OB Nội"; payer = "OB Nội"; }
         else if (textVal.toLowerCase().indexOf("nhà dung") >= 0) { family = "Nhà Dung"; payer = "Nhà Dung"; }
 
-        // 4. LÀM SẠCH MÔ TẢ (Xóa bỏ ngày tháng, số tiền và các từ nối thừa)
+        // 4. Tự động tìm HẠNG MỤC
+        var category = "📦 Khác"; 
+        var lowerText = textVal.toLowerCase();
+        if (lowerText.match(/ăn|uống|hải sản|bún|phở|nước|nhậu|cafe|sáng|trưa|tối/)) category = "🍜 Ăn uống";
+        else if (lowerText.match(/tham quan|địa điểm|vé vào|chơi|tour/)) category = "🎡 Tham quan";
+        else if (lowerText.match(/di chuyển|xe|máy bay|taxi|grab|phà|đò/)) category = "✈ Di chuyển";
+        else if (lowerText.match(/khách sạn|phòng|nhà nghỉ|resort/)) category = "🏨 Khách sạn";
+        else if (lowerText.match(/mua|quà|chợ/)) category = "🛍 Mua sắm";
+
+        // 5. LÀM SẠCH MÔ TẢ (Lọc thêm chữ đồng/đ)
         var cleanDesc = textVal;
         cleanDesc = cleanDesc.replace(/(?:ngày\s+)?\d{1,2}(?:\s+tháng\s+\d{1,2})?/gi, "");
         cleanDesc = cleanDesc.replace(/\b\d{1,2}\/\d{1,2}\b/g, "");
-        cleanDesc = cleanDesc.replace(/(?:là|hết|tốn|tổng)?\s*\d+[\.,]?\d*\s*(?:triệu|tr|k|ngàn|đ|₫)?/gi, "");
+        cleanDesc = cleanDesc.replace(/(?:là|hết|tốn|tổng)?\s*\d+[\.,]?\d*\s*(?:triệu|tr|k|ngàn|đ|₫|đồng)?/gi, "");
         cleanDesc = cleanDesc.replace(/\b\d{1,3}(?:[\.,]\d{3})+\b/g, "");
         cleanDesc = cleanDesc.replace(/(?:do\s+)?(?:nhà\s+)?(tú|thi|dung|ob nội)/gi, "");
         cleanDesc = cleanDesc.replace(/\s+/g, " ").trim();
         if (cleanDesc) {
           cleanDesc = cleanDesc.charAt(0).toUpperCase() + cleanDesc.slice(1);
         } else {
-          cleanDesc = "Chi phí ăn uống";
+          cleanDesc = "Chi phí";
         }
 
-        // 5. Lưu vào Firebase
+        // 6. Lưu vào Firebase
         addRow("expenses", function() {
           return { 
             id: uid(), 
             date: dateVal, 
-            category: "🍜 Ăn uống", 
+            category: category, 
             description: cleanDesc, 
             family: family, 
             amount: amount, 
