@@ -9,43 +9,43 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --teal:    #06AED5; --teal-l:   #E0F7FA; --teal-d:   #075E6B;
-  --purple:  #FF6FA8; --purple-l: #FFE8F1; --purple-d: #99245C;
-  --amber:   #FFC93C; --amber-l:  #FFF6DE; --amber-d:  #8A5A00;
-  --coral:   #FF6B5B; --coral-l:  #FFEAE6; --coral-d:  #8C2A1E;
-  --gray:    #8A8580; --gray-l:   #FBF6F0; --gray-d:   #2E2A28;
-  --border:  rgba(46,42,40,0.10);
-  --border-md: rgba(46,42,40,0.20);
-  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --teal:    #06AED5; --teal-l:   #E0F7FA; --teal-d:   #075E6B;
+  --purple:  #FF6FA8; --purple-l: #FFE8F1; --purple-d: #99245C;
+  --amber:   #FFC93C; --amber-l:  #FFF6DE; --amber-d:  #8A5A00;
+  --coral:   #FF6B5B; --coral-l:  #FFEAE6; --coral-d:  #8C2A1E;
+  --gray:    #8A8580; --gray-l:   #FBF6F0; --gray-d:   #2E2A28;
+  --border:  rgba(46,42,40,0.10);
+  --border-md: rgba(46,42,40,0.20);
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(160deg, #FFF4E6 0%, #FFE9E0 30%, #FFE3EE 55%, #E6F7FA 80%, #DFF3F8 100%);
-  background-attachment: fixed;
-  color: #2E2A28; font-size: 14px; min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(160deg, #FFF4E6 0%, #FFE9E0 30%, #FFE3EE 55%, #E6F7FA 80%, #DFF3F8 100%);
+  background-attachment: fixed;
+  color: #2E2A28; font-size: 14px; min-height: 100vh;
 }
 
 #app { max-width: 960px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
 
 .hero {
-  border-radius: var(--radius-xl);
-  padding: 1.5rem 1.75rem;
-  margin-bottom: 1.25rem;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(115deg, #FF6B5B 0%, #FF6FA8 28%, #FFC93C 55%, #06AED5 80%, #075E6B 100%);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(115deg, #FF6B5B 0%, #FF6FA8 28%, #FFC93C 55%, #06AED5 80%, #075E6B 100%);
+  box-shadow: var(--shadow-md);
 }
 .hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 15% 30%, rgba(255,201,60,0.35) 0%, transparent 55%),
-              radial-gradient(ellipse at 85% 15%, rgba(255,111,168,0.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 95%, rgba(6,174,213,0.35) 0%, transparent 55%);
-  pointer-events: none;
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 15% 30%, rgba(255,201,60,0.35) 0%, transparent 55%),
+               radial-gradient(ellipse at 85% 15%, rgba(255,111,168,0.3) 0%, transparent 50%),
+               radial-gradient(ellipse at 70% 95%, rgba(6,174,213,0.35) 0%, transparent 55%);
+  pointer-events: none;
 }
 .hero-content { position: relative; z-index: 1; }
 .hero-top { display: flex; align-items: flex-start; gap: 12px; }
@@ -61,34 +61,34 @@ body {
 
 .alert-bar { display: flex; align-items: center; margin-top: 10px; font-size: 13px; border-radius: var(--radius-md); padding: 9px 12px; gap: 8px; }
 .alert-success { background: rgba(29,158,117,0.15); color: #d1fae5; border: 1px solid rgba(29,158,117,0.3); }
-.alert-danger  { background: rgba(220,38,38,0.15);  color: #fecaca; border: 1px solid rgba(220,38,38,0.3); }
+.alert-danger  { background: rgba(220,38,38,0.15);  color: #fecaca; border: 1px solid rgba(220,38,38,0.3); }
 
 .tabs-wrap { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 6px; margin-bottom: 1.25rem; display: flex; gap: 4px; overflow-x: auto; box-shadow: var(--shadow); }
 .tab-btn { display: flex; align-items: center; gap: 7px; flex-shrink: 0; font-size: 13px; font-weight: 500; padding: 8px 14px; border: none; background: transparent; color: var(--gray); border-radius: var(--radius-md); cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
 .tab-btn:hover { background: var(--gray-l); color: var(--gray-d); }
 .tab-btn.active { color: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-.tab-btn[data-tab="overview"].active  { background: linear-gradient(135deg, var(--teal), #075E6B); }
+.tab-btn[data-tab="overview"].active  { background: linear-gradient(135deg, var(--teal), #075E6B); }
 .tab-btn[data-tab="itinerary"].active { background: linear-gradient(135deg, var(--purple), #99245C); }
-.tab-btn[data-tab="rooms"].active     { background: linear-gradient(135deg, var(--amber), #8A5A00); }
-.tab-btn[data-tab="expenses"].active  { background: linear-gradient(135deg, var(--coral), #8C2A1E); }
+.tab-btn[data-tab="rooms"].active     { background: linear-gradient(135deg, var(--amber), #8A5A00); }
+.tab-btn[data-tab="expenses"].active  { background: linear-gradient(135deg, var(--coral), #8C2A1E); }
 
 .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
 .section-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; color: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
 
 .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; margin-bottom: 14px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
-.card-teal::before   { background: linear-gradient(90deg, var(--teal), #5DCAA5, var(--purple)); }
+.card-teal::before   { background: linear-gradient(90deg, var(--teal), #5DCAA5, var(--purple)); }
 .card-purple::before { background: linear-gradient(90deg, var(--purple), #AFA9EC, var(--amber)); }
-.card-amber::before  { background: linear-gradient(90deg, var(--amber), #FAC775, var(--coral)); }
-.card-coral::before  { background: linear-gradient(90deg, var(--coral), var(--amber), #FAC775); }
-.card-day::before    { background: linear-gradient(90deg, var(--teal), var(--purple), var(--amber), var(--coral)); }
+.card-amber::before  { background: linear-gradient(90deg, var(--amber), #FAC775, var(--coral)); }
+.card-coral::before  { background: linear-gradient(90deg, var(--coral), var(--amber), #FAC775); }
+.card-day::before    { background: linear-gradient(90deg, var(--teal), var(--purple), var(--amber), var(--coral)); }
 
 .card-title { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--gray-d); display: flex; align-items: center; gap: 8px; }
 .card-title-dot { width: 8px; height: 8px; border-radius: 50%; }
-.dot-teal   { background: var(--teal); }
+.dot-teal   { background: var(--teal); }
 .dot-purple { background: var(--purple); }
-.dot-amber  { background: var(--amber); }
-.dot-coral  { background: var(--coral); }
+.dot-amber  { background: var(--amber); }
+.dot-coral  { background: var(--coral); }
 
 table { width: 100%; font-size: 13px; border-collapse: collapse; }
 th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray); padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; }
@@ -100,7 +100,7 @@ tr:not(.total-row):hover td { background: #fafafa; }
 input, select, textarea { font-size: 13px; font-family: inherit; color: var(--gray-d); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 9px; background: #fff; width: 100%; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
 input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(29,158,117,0.1); }
 .needs-fill { background: #fffbeb !important; border-color: #fcd34d !important; }
-.field-label    { font-size: 12px; font-weight: 500; color: var(--gray); margin-bottom: 5px; }
+.field-label    { font-size: 12px; font-weight: 500; color: var(--gray); margin-bottom: 5px; }
 .field-label-sm { font-size: 11px; color: #B4B2A9; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -134,9 +134,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shado
 .fav-3 { background: linear-gradient(135deg, var(--amber), #8A5A00); }
 .fav-4 { background: linear-gradient(135deg, var(--coral), #8C2A1E); }
 
-.status-full    { background: #d1fae5; color: #065f46; }
+.status-full    { background: #d1fae5; color: #065f46; }
 .status-partial { background: #fef3c7; color: #92400e; }
-.status-none    { background: #fee2e2; color: #991b1b; }
+.status-none    { background: #fee2e2; color: #991b1b; }
 
 .loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 0; }
 .spinner { width: 36px; height: 36px; border: 3px solid transparent; border-top-color: var(--teal); border-right-color: var(--purple); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -146,535 +146,399 @@ tr.expense-row:hover td { background: #f0fdf4; }
 <body>
 <div id="app"></div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyDyPtbiBsvJRALiZSgTSbXnRvHkT5_7fW8",
-    authDomain: "mien-trung-chay-nang-2026.firebaseapp.com",
-    databaseURL: "https://mien-trung-chay-nang-2026-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "mien-trung-chay-nang-2026",
-    storageBucket: "mien-trung-chay-nang-2026.firebasestorage.app",
-    messagingSenderId: "455098963218",
-    appId: "1:455098963218:web:b187181effa61a452d4fcb"
-  };
-  const fbApp = initializeApp(firebaseConfig);
-  const db = getDatabase(fbApp);
-  const DATA_REF = ref(db, "tour2026");
-  window._fbSet = (data) => set(DATA_REF, data);
-  window._fbOnValue = (cb) => onValue(DATA_REF, snap => cb(snap.val()));
-  window.dispatchEvent(new Event("firebase-ready"));
-</script>
-
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=ĐIỀN_MÃ_GOOGLE_MAPS_API_KEY_VÀO_ĐÂY&libraries=places&language=vi"></script>
 
 <script>
 (function () {
-  var GEMINI_API_KEY = "AQ.Ab8RN6KBnmHIb8suilaP7g914bhLojcDOhP925L-qLzCByPmxw";
+  var FAMILY_NAMES = ["Nhà Tú","Nhà Thi","OB Nội","Nhà Dung","Tất cả"];
+  var EXPENSE_CATEGORIES = ["✈ Di chuyển","🏨 Khách sạn","🍜 Ăn uống","🎡 Tham quan","🛍 Mua sắm","📦 Khác"];
+  var ROOM_STATUS = ["Chờ xác nhận","Đã xác nhận","Đã hủy"];
+  var MEMBER_TYPES = ["ADT","CHD"];
+  var FAM_AVATARS = ["fav-1","fav-2","fav-3","fav-4"];
+  var CARD_ACCENTS = ["card-teal","card-purple","card-amber","card-coral"];
 
-  var FAMILY_NAMES = ["Nhà Tú","Nhà Thi","OB Nội","Nhà Dung","Tất cả"];
-  var EXPENSE_CATEGORIES = ["✈ Di chuyển","🏨 Khách sạn","🍜 Ăn uống","🎡 Tham quan","🛍 Mua sắm","📦 Khác"];
-  var ROOM_STATUS = ["Chờ xác nhận","Đã xác nhận","Đã hủy"];
-  var MEMBER_TYPES = ["ADT","CHD"];
-  var FAM_AVATARS = ["fav-1","fav-2","fav-3","fav-4"];
-  var CARD_ACCENTS = ["card-teal","card-purple","card-amber","card-coral"];
+  function uid() { return Math.random().toString(36).slice(2,10); }
+  function esc(s) {
+    return String(s==null?"":s).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");
+  }
+  function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
+  function fmtDate(iso) { if(!iso) return "—"; var p=iso.split("-"); return p[2]+"/"+p[1]; }
 
-  function uid() { return Math.random().toString(36).slice(2,10); }
-  function esc(s) {
-    return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
-  function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
-  function fmtDate(iso) { if(!iso) return "—"; var p=iso.split("-"); return p[2]+"/"+p[1]; }
+  function getLocalData() {
+    var stored = localStorage.getItem("tour_local_2026");
+    if (stored) {
+      try { return JSON.parse(stored); } catch(e) {}
+    }
+    return {
+      info: { tourName: "Tour du lịch: Trải nghiệm hè 2026 – Miền Trung nắng cháy", destination: "Qui Nhơn – Phú Yên – Ninh Vân", startDate: "2026-07-22", endDate: "2026-07-26", numDays: 5, guide: "", emergencyContact: "" },
+      families: [
+        {id:"f1",name:"Nhà Tú",adt:2,chd:2,senior:1,note:"CHD: 13t, 8t | 1 người 60 tuổi"},
+        {id:"f2",name:"Nhà Thi",adt:2,chd:2,senior:0,note:"CHD: 13t, 9t"},
+        {id:"f3",name:"OB Nội",adt:0,chd:0,senior:2,note:"2 ADT cao tuổi 60+"},
+        {id:"f4",name:"Nhà Dung",adt:2,chd:2,senior:0,note:"CHD: 13t, 11t"}
+      ],
+      members: [
+        {id:uid(),family:"Nhà Tú",name:"",type:"ADT",ageNote:"Người lớn 1",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Tú",name:"",type:"ADT",ageNote:"Người lớn 2",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Tú",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Tú",name:"",type:"CHD",ageNote:"8 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Tú",name:"",type:"ADT",ageNote:"60 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Thi",name:"",type:"ADT",ageNote:"Người lớn 1",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Thi",name:"",type:"ADT",ageNote:"Người lớn 2",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Thi",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Thi",name:"",type:"CHD",ageNote:"9 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"OB Nội",name:"",type:"ADT",ageNote:"60 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"OB Nội",name:"",type:"ADT",ageNote:"60 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Dung",name:"",type:"ADT",ageNote:"Người lớn 1",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Dung",name:"",type:"ADT",ageNote:"Người lớn 2",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Dung",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
+        {id:uid(),family:"Nhà Dung",name:"",type:"CHD",ageNote:"11 tuổi",idNumber:"",phone:"",special:""}
+      ],
+      itinerary: Array.from({length:5},function(_,i){ return {id:uid(),dayIndex:i+1,date:"",locations:[{id:uid(),name:"",cost:0}],meals:[{id:uid(),name:"",cost:0}],note:""}; }),
+      rooms: Array.from({length:5},function(_,i){
+        return {
+          id:uid(), nightIndex:i+1, date:"",
+          ksA:{ hotel:"", address:"", phone:"", rows:[{id:uid(),family:"Nhà Tú",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Thi",roomType:"",numRooms:1,pricePerNight:0,deposit:0}] },
+          ksB:{ hotel:"", address:"", phone:"", rows:[{id:uid(),family:"OB Nội",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Dung",roomType:"",numRooms:1,pricePerNight:0,deposit:0}] },
+          note:""
+        };
+      }),
+      expenses: [],
+      payments: [ {id:"f1",family:"Nhà Tú",totalCost:0,deposit:0,paid:0}, {id:"f2",family:"Nhà Thi",totalCost:0,deposit:0,paid:0}, {id:"f3",family:"OB Nội",totalCost:0,deposit:0,paid:0}, {id:"f4",family:"Nhà Dung",totalCost:0,deposit:0,paid:0} ],
+      otherCost: 0
+    };
+  }
 
-  function defaultData() {
-    return {
-      info: { tourName: "Tour du lịch: Trải nghiệm hè 2026 – Miền Trung nắng cháy", destination: "Qui Nhơn – Phú Yên – Ninh Vân", startDate: "2026-07-22", endDate: "2026-07-26", numDays: 5, guide: "", emergencyContact: "" },
-      families: [
-        {id:"f1",name:"Nhà Tú",adt:2,chd:2,senior:1,note:"CHD: 13t, 8t | 1 người 60 tuổi"},
-        {id:"f2",name:"Nhà Thi",adt:2,chd:2,senior:0,note:"CHD: 13t, 9t"},
-        {id:"f3",name:"OB Nội",adt:0,chd:0,senior:2,note:"2 ADT cao tuổi 60+"},
-        {id:"f4",name:"Nhà Dung",adt:2,chd:2,senior:0,note:"CHD: 13t, 11t"}
-      ],
-      members: [
-        {id:uid(),family:"Nhà Tú",name:"",type:"ADT",ageNote:"Người lớn 1",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Tú",name:"",type:"ADT",ageNote:"Người lớn 2",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Tú",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Tú",name:"",type:"CHD",ageNote:"8 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Tú",name:"",type:"ADT",ageNote:"60 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Thi",name:"",type:"ADT",ageNote:"Người lớn 1",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Thi",name:"",type:"ADT",ageNote:"Người lớn 2",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Thi",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Thi",name:"",type:"CHD",ageNote:"9 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"OB Nội",name:"",type:"ADT",ageNote:"60 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"OB Nội",name:"",type:"ADT",ageNote:"60 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Dung",name:"",type:"ADT",ageNote:"Người lớn 1",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Dung",name:"",type:"ADT",ageNote:"Người lớn 2",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Dung",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
-        {id:uid(),family:"Nhà Dung",name:"",type:"CHD",ageNote:"11 tuổi",idNumber:"",phone:"",special:""}
-      ],
-      itinerary: Array.from({length:5},function(_,i){ return {id:uid(),dayIndex:i+1,date:"",locations:[{id:uid(),name:"",cost:0}],meals:[{id:uid(),name:"",cost:0}],note:""}; }),
-      rooms: Array.from({length:5},function(_,i){
-        return {
-          id:uid(), nightIndex:i+1, date:"",
-          ksA:{ hotel:"", address:"", phone:"", rows:[{id:uid(),family:"Nhà Tú",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Thi",roomType:"",numRooms:1,pricePerNight:0,deposit:0}] },
-          ksB:{ hotel:"", address:"", phone:"", rows:[{id:uid(),family:"OB Nội",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Dung",roomType:"",numRooms:1,pricePerNight:0,deposit:0}] },
-          note:""
-        };
-      }),
-      expenses: [],
-      payments: [ {id:"f1",family:"Nhà Tú",totalCost:0,deposit:0,paid:0}, {id:"f2",family:"Nhà Thi",totalCost:0,deposit:0,paid:0}, {id:"f3",family:"OB Nội",totalCost:0,deposit:0,paid:0}, {id:"f4",family:"Nhà Dung",totalCost:0,deposit:0,paid:0} ],
-      otherCost: 0
-    };
-  }
+  function saveLocalData(data) {
+    localStorage.setItem("tour_local_2026", JSON.stringify(data));
+    state.data = data;
+    render();
+  }
 
-  function deepMerge(base, inc) {
-    if(!inc) return base;
-    var m = JSON.parse(JSON.stringify(base));
-    if(inc.info) m.info = Object.assign({},base.info,inc.info);
-    if(m.info.destination && m.info.destination.indexOf("Đà Nẵng") >= 0) m.info.destination = "Qui Nhơn – Phú Yên – Ninh Vân";
-    if(!m.info.numDays || m.info.numDays > 10) m.info.numDays = 5;
-    ["families","members","itinerary","rooms","expenses","payments"].forEach(function(k){ if(inc[k]) m[k]=inc[k]; });
-    if(typeof inc.otherCost!=="undefined") m.otherCost = inc.otherCost;
-    m.payments = m.payments.map(function(p){ return {id:p.id||uid(), family:p.family, totalCost: (typeof p.totalCost!=="undefined")?p.totalCost:0, deposit:p.deposit||0, paid:p.paid||0}; });
+  var state = { data: getLocalData(), activeTab: "overview", loading: false, syncState: "synced", lastSynced: new Date(), error: null, saving: false, fbReady: true };
+  var root = document.getElementById("app");
 
-    var NAME_MAP = {"Gia định 1":"Nhà Tú","Gia định 2":"Nhà Thi","Gia định 3":"OB Nội","Gia định 4":"Nhà Dung"};
-    function fixName(n){ return NAME_MAP[n] || n; }
-    m.families.forEach(function(f){ f.name = fixName(f.name); });
-    m.members.forEach(function(mm){ mm.family = fixName(mm.family); });
-    m.expenses.forEach(function(e){ e.family = fixName(e.family); });
-    m.payments.forEach(function(p){ p.family = fixName(p.family); });
-    m.rooms.forEach(function(r){
-      ["ksA","ksB"].forEach(function(ks){
-        if(r[ks]){
-          if(r[ks].families) r[ks].families = r[ks].families.map(fixName);
-          if(r[ks].rows) r[ks].rows.forEach(function(row){ row.family = fixName(row.family); });
-        }
-      });
-    });
-    m.rooms = m.rooms.map(function(r,i){
-      function up(k, defaultFams){
-        k = k || {};
-        if(k.rows && k.rows.length){
-          return {
-            hotel: k.hotel||"", address: k.address||"", phone: k.phone||"",
-            rows: k.rows.map(function(row){ return {id:row.id||uid(), family:row.family||defaultFams[0], roomType:row.roomType||"", numRooms:row.numRooms||1, pricePerNight:row.pricePerNight||0, deposit:row.deposit||0}; })
-          };
-        }
-        var fams = (k.families && k.families.length) ? k.families : defaultFams;
-        return {
-          hotel: k.hotel||"", address: k.address||"", phone: k.phone||"",
-          rows: fams.map(function(f){ return {id:uid(), family:f, roomType:k.roomType||"", numRooms:k.numRooms||1, pricePerNight:k.pricePerNight||0, deposit:k.deposit||0}; })
-        };
-      }
-      if(!r.ksA && !r.ksB){
-        return {id:r.id||uid(), nightIndex:r.nightIndex||i+1, date:r.date||"", ksA: up({hotel:r.hotel||"", families:["Nhà Tú","Nhà Thi"], numRooms:r.numRooms||1, roomType:r.roomType||"", pricePerNight:r.pricePerNight||0}, ["Nhà Tú","Nhà Thi"]), ksB: up({}, ["OB Nội","Nhà Dung"]), note:r.note||""};
-      }
-      return {id:r.id||uid(), nightIndex:r.nightIndex||i+1, date:r.date||"", ksA: up(r.ksA,["Nhà Tú","Nhà Thi"]), ksB: up(r.ksB,["OB Nội","Nhà Dung"]), note:r.note||""};
-    });
-    m.itinerary = m.itinerary.map(function(d,i){
-      var locations = (d.locations && d.locations.length) ? d.locations.map(function(l){ return {id:l.id||uid(), name:l.name||"", cost:l.cost||0}; }) : (d.location ? [{id:uid(), name:d.location, cost:d.estCost||0}] : [{id:uid(), name:"", cost:0}]);
-      var meals = (d.meals && d.meals.length) ? d.meals.map(function(mm){ return {id:mm.id||uid(), name:mm.name||"", cost:mm.cost||0}; }) : (d.mealNote ? [{id:uid(), name:d.mealNote, cost:0}] : [{id:uid(), name:"", cost:0}]);
-      return {id:d.id||uid(), dayIndex:d.dayIndex||i+1, date:d.date||"", locations:locations, meals:meals, note:d.note||""};
-    });
-    return m;
-  }
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
+  function updatePath(path,value){ var n=clone(state.data),c=n; for(var i=0;i<path.length-1;i++) c=c[path[i]]; c[path[path.length-1]]=value; saveLocalData(n); }
+  function updateRow(col,id,field,value){
+    var n=clone(state.data),r=n[col].find(function(x){return x.id===id;});
+    if(!r) return;
+    if(field.indexOf(".")>=0){
+      var parts=field.split(".");
+      if(!r[parts[0]]) r[parts[0]]={};
+      r[parts[0]][parts[1]]=value;
+    } else { r[field]=value; }
+    saveLocalData(n);
+  }
+  function addRow(col,makeRow){ var n=clone(state.data); n[col].push(makeRow(n[col].length)); saveLocalData(n); }
+  window.addRow = addRow; 
+  function removeRow(col,id){ var n=clone(state.data); n[col]=n[col].filter(function(r){return r.id!==id;}); saveLocalData(n); }
+  function setTab(t){ state.activeTab=t; render(); }
 
-  var state = { data: defaultData(), activeTab: "overview", loading: true, syncState: "loading", lastSynced: null, error: null, saving: false, fbReady: false };
-  var root = document.getElementById("app");
-  var saveTimer = null;
+  function selOpts(opts,cur){ return opts.map(function(o){ return '<option value="'+esc(o)+'"'+(o===cur?" selected":"")+'>'+esc(o)+'</option>'; }).join(""); }
 
-  window.addEventListener("firebase-ready", function() {
-    state.fbReady = true;
-    window._fbOnValue(function(val) {
-      if(state.saving) return;
-      if(val) state.data = deepMerge(defaultData(),val);
-      state.loading = false; state.syncState = "synced"; state.lastSynced = new Date(); state.error = null;
-      render();
-    });
-  });
-  setTimeout(function(){ if(!state.fbReady){ state.loading=false; state.syncState="nofb"; state.error="Không kết nối được Firebase — kiểm tra databaseURL và rules."; render(); }}, 6000);
+  function syncLabel(){ return "✓ Lưu trên trình duyệt"; }
 
-  function scheduleSave(next) {
-    state.data = next; state.syncState = "saving"; render();
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(function(){
-      if(!state.fbReady) return;
-      state.saving = true;
-      window._fbSet(state.data).then(function(){ state.syncState="synced"; state.lastSynced=new Date(); state.error=null; })
-      .catch(function(e){ state.syncState="error"; state.error="Lỗi lưu: "+e.message; })
-      .finally(function(){ state.saving=false; render(); });
-    },800);
-  }
-  function clone(o){ return JSON.parse(JSON.stringify(o)); }
-  function updatePath(path,value){ var n=clone(state.data),c=n; for(var i=0;i<path.length-1;i++) c=c[path[i]]; c[path[path.length-1]]=value; scheduleSave(n); }
-  function updateRow(col,id,field,value){
-    var n=clone(state.data),r=n[col].find(function(x){return x.id===id;});
-    if(!r) return;
-    if(field.indexOf(".")>=0){
-      var parts=field.split(".");
-      if(!r[parts[0]]) r[parts[0]]={};
-      r[parts[0]][parts[1]]=value;
-    } else { r[field]=value; }
-    scheduleSave(n);
-  }
-  function addRow(col,makeRow){ var n=clone(state.data); n[col].push(makeRow(n[col].length)); scheduleSave(n); }
-  window.addRow = addRow; 
-  function removeRow(col,id){ var n=clone(state.data); n[col]=n[col].filter(function(r){return r.id!==id;}); scheduleSave(n); }
-  function setTab(t){ state.activeTab=t; render(); }
+  function icon(name){
+    var d={
+      home:"M3 9.5 12 3l9 6.5M5 10v10h14V10", map:"M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2ZM9 4v14M15 6v14", bed:"M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7M3 14h18", wallet:"M3 6h18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM16 14h2", users:"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75", refresh:"M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5", plus:"M12 5v14M5 12h14", trash:"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13", pin:"M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z", ext:"M14 4h6v6M20 4 10 14M18 14v6H4V6h6", alert:"M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"
+    };
+    return '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+(d[name]||"")+'"/></svg>';
+  }
 
-  function selOpts(opts,cur){ return opts.map(function(o){ return '<option value="'+esc(o)+'"'+(o===cur?" selected":"")+'>'+esc(o)+'</option>'; }).join(""); }
+  function renderHeader(){
+    var info=state.data.info;
+    var h='<div class="hero"><div class="hero-content">';
+    h+='<div class="hero-top">';
+    h+='<div style="flex:1;min-width:0;">';
+    h+='<input data-path="info.tourName" value="'+esc(info.tourName)+'" placeholder="Tên tour" class="hero-title-input" />';
+    h+='<div class="hero-dest-row">'+icon("pin")+'<input data-path="info.destination" value="'+esc(info.destination)+'" placeholder="Điểm đến" class="hero-dest-input" /></div>';
+    h+='</div>';
+    h+='<button class="sync-btn"><span style="display:flex;">'+icon("refresh")+'</span><span>'+syncLabel()+'</span></button>';
+    h+='</div>';
+    h+='<div class="hero-meta">';
+    h+='<span class="hero-badge">📅 '+fmtDate(info.startDate)+' – '+fmtDate(info.endDate)+'</span>';
+    h+='<span class="hero-badge">☀️ 22/07 – 26/07 · '+info.numDays+' ngày</span>';
+    h+='<span class="hero-badge">👥 15 khách · 4 nhà</span>';
+    h+='</div>';
+    h+='<div class="alert-bar alert-success">'+icon("refresh")+'<span>Dữ liệu lưu an toàn trên trình duyệt này</span></div>';
+    h+='</div></div>';
+    return h;
+  }
 
-  function syncLabel(){
-    if(state.syncState==="nofb") return "⚠ Không có Firebase";
-    if(state.syncState==="loading") return "Đang tải…";
-    if(state.syncState==="saving") return "Đang lưu…";
-    if(state.syncState==="error") return "⚠ Lỗi lưu";
-    if(state.lastSynced){ var t=state.lastSynced; return "✓ Sync "+String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0"); }
-    return "✓ Đã sync";
-  }
+  function renderTabs(){
+    var tabs=[ {id:"overview",label:"Tổng quan",icon:"home"}, {id:"itinerary",label:"Lịch trình",icon:"map"}, {id:"rooms",label:"Khách sạn",icon:"bed"}, {id:"expenses",label:"Chi phí",icon:"wallet"} ];
+    var h='<div class="tabs-wrap">';
+    tabs.forEach(function(t){ h+='<button class="tab-btn'+(state.activeTab===t.id?" active":"")+'" data-tab="'+t.id+'">'+icon(t.icon)+'<span>'+t.label+'</span></button>'; });
+    return h+'</div>';
+  }
 
-  function icon(name){
-    var d={
-      home:"M3 9.5 12 3l9 6.5M5 10v10h14V10", map:"M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2ZM9 4v14M15 6v14", bed:"M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7M3 14h18", wallet:"M3 6h18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM16 14h2", users:"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75", refresh:"M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5", plus:"M12 5v14M5 12h14", trash:"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13", pin:"M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z", ext:"M14 4h6v6M20 4 10 14M18 14v6H4V6h6", alert:"M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"
-    };
-    return '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+(d[name]||"")+'"/></svg>';
-  }
+  function catTotals(){
+    return EXPENSE_CATEGORIES.map(function(cat){
+      var pf=state.data.families.map(function(f){ return state.data.expenses.filter(function(e){return e.category===cat&&e.family===f.name;}).reduce(function(s,e){return s+(Number(e.amount)||0);},0); });
+      return {cat:cat,pf:pf,total:pf.reduce(function(s,v){return s+v;},0)};
+    });
+  }
+  function itinLocationsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.locations||[]).reduce(function(s2,l){return s2+(Number(l.cost)||0);},0); },0); }
+  function itinMealsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.meals||[]).reduce(function(s2,m){return s2+(Number(m.cost)||0);},0); },0); }
 
-  function renderHeader(){
-    var info=state.data.info;
-    var spinning=state.syncState==="loading"||state.syncState==="saving";
-    var h='<div class="hero"><div class="hero-content">';
-    h+='<div class="hero-top">';
-    h+='<div style="flex:1;min-width:0;">';
-    h+='<input data-path="info.tourName" value="'+esc(info.tourName)+'" placeholder="Tên tour" class="hero-title-input" />';
-    h+='<div class="hero-dest-row">'+icon("pin")+'<input data-path="info.destination" value="'+esc(info.destination)+'" placeholder="Điểm đến" class="hero-dest-input" /></div>';
-    h+='</div>';
-    h+='<button id="sync-btn" class="sync-btn"><span class="'+(spinning?"spin":"")+'" style="display:flex;">'+icon("refresh")+'</span><span>'+syncLabel()+'</span></button>';
-    h+='</div>';
-    h+='<div class="hero-meta">';
-    h+='<span class="hero-badge">📅 '+fmtDate(info.startDate)+' – '+fmtDate(info.endDate)+'</span>';
-    h+='<span class="hero-badge">☀️ 22/07 – 26/07 · '+info.numDays+' ngày</span>';
-    h+='<span class="hero-badge">👥 15 khách · 4 nhà</span>';
-    h+='</div>';
-    if(state.syncState==="nofb"||state.syncState==="error"){
-      h+='<div class="alert-bar alert-danger">'+icon("alert")+'<span>'+esc(state.error||"Lỗi kết nối Firebase")+'</span></div>';
-    } else if(state.syncState==="synced"){
-      h+='<div class="alert-bar alert-success">'+icon("refresh")+'<span>Đã kết nối Firebase — mọi thay đổi sync ngay cho cả nhóm</span></div>';
-    }
-    h+='</div></div>';
-    return h;
-  }
+  function renderOverview(){
+    var data=state.data;
+    var totalGuests=data.families.reduce(function(s,f){return s+f.adt+f.chd+f.senior;},0);
+    var locTotal=itinLocationsTotal();
+    var mealTotal=itinMealsTotal();
+    var roomTotal=data.rooms.reduce(function(s,r){return s+roomNightTotal(r);},0);
+    var roomPF=data.families.map(function(f){return roomCostByFamily(f.name);});
+    var otherTotal=Number(data.otherCost)||0;
+    var grandTotal=locTotal+mealTotal+roomTotal+otherTotal;
+    var h="";
 
-  function renderTabs(){
-    var tabs=[ {id:"overview",label:"Tổng quan",icon:"home"}, {id:"itinerary",label:"Lịch trình",icon:"map"}, {id:"rooms",label:"Khách sạn",icon:"bed"}, {id:"expenses",label:"Chi phí",icon:"wallet"} ];
-    var h='<div class="tabs-wrap">';
-    tabs.forEach(function(t){ h+='<button class="tab-btn'+(state.activeTab===t.id?" active":"")+'" data-tab="'+t.id+'">'+icon(t.icon)+'<span>'+t.label+'</span></button>'; });
-    return h+'</div>';
-  }
+    h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.25rem;">';
+    var stats=[ {label:"Tổng khách",val:totalGuests+" người",grad:"linear-gradient(135deg,#075E6B,#06AED5)"}, {label:"Số nhà",val:"4 nhóm",grad:"linear-gradient(135deg,#99245C,#FF6FA8)"}, {label:"Tổng chi phí",val:vnd(grandTotal),grad:"linear-gradient(135deg,#8A5A00,#FFC93C)"}, {label:"Số ngày",val:(data.info.numDays||5)+" ngày",grad:"linear-gradient(135deg,#8C2A1E,#FF6B5B)"} ];
+    stats.forEach(function(s){
+      h+='<div style="background:'+s.grad+';border-radius:14px;padding:16px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);">';
+      h+='<div style="font-size:12px;opacity:0.8;margin-bottom:4px;">'+s.label+'</div>';
+      h+='<div style="font-size:18px;font-weight:700;">'+s.val+'</div></div>';
+    });
+    h+='</div>';
 
-  function catTotals(){
-    return EXPENSE_CATEGORIES.map(function(cat){
-      var pf=state.data.families.map(function(f){ return state.data.expenses.filter(function(e){return e.category===cat&&e.family===f.name;}).reduce(function(s,e){return s+(Number(e.amount)||0);},0); });
-      return {cat:cat,pf:pf,total:pf.reduce(function(s,v){return s+v;},0)};
-    });
-  }
-  function itinLocationsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.locations||[]).reduce(function(s2,l){return s2+(Number(l.cost)||0);},0); },0); }
-  function itinMealsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.meals||[]).reduce(function(s2,m){return s2+(Number(m.cost)||0);},0); },0); }
+    h+='<div class="card card-teal" style="background: linear-gradient(135deg, #E0F7FA, #fff);">';
+    h+='<div class="card-title"><span class="card-title-dot dot-teal"></span>Điền liệu nhập giọng nói nhanh</div>';
+    h+='<div style="display:flex; gap:8px; align-items: center; flex-wrap: wrap;">';
+    h+='<input id="ai-input" placeholder="Nói hoặc nhập lệnh... (VD: Ăn trưa hải sản 2.500.000 nhà Tú)" style="flex:1; min-width:220px; padding:10px; border-radius:8px;" />';
+    h+='<button id="mic-btn" type="button" style="cursor:pointer; background:#fff; border:1px solid #7c3aed; padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:#7c3aed; font-weight:600; font-family:inherit; font-size:12px;">🎙️ Nói</button>';
+    h+='<button id="quick-add-btn" style="cursor:pointer; background:#10B981; color:#fff; border:none; padding:10px 14px; border-radius:8px; font-weight:600; font-size:12px;">➕ Cập nhật chi phí</button>';
+    h+='</div>';
+    h+='<p id="ai-status" style="font-size:12px; color:var(--gray); margin-top:8px; font-weight:500;"></p>';
+    h+='</div>';
 
-  function renderOverview(){
-    var data=state.data;
-    var totalGuests=data.families.reduce(function(s,f){return s+f.adt+f.chd+f.senior;},0);
-    var locTotal=itinLocationsTotal();
-    var mealTotal=itinMealsTotal();
-    var roomTotal=data.rooms.reduce(function(s,r){return s+roomNightTotal(r);},0);
-    var roomPF=data.families.map(function(f){return roomCostByFamily(f.name);});
-    var otherTotal=Number(data.otherCost)||0;
-    var grandTotal=locTotal+mealTotal+roomTotal+otherTotal;
-    var h="";
+    h+='<div class="card card-purple">';
+    h+='<div class="card-title"><span class="card-title-dot dot-purple"></span>Thành viên tham gia</div>';
+    h+='<div style="overflow-x:auto"><table><thead><tr><th>Nhà</th><th style="text-align:center">Người lớn</th><th style="text-align:center">Trẻ em</th><th style="text-align:center">Cao tuổi</th><th style="text-align:center">Tổng</th><th>Ghi chú</th></tr></thead><tbody>';
+    data.families.forEach(function(f,i){
+      var colors=["#06AED5","#FF6FA8","#FFC93C","#FF6B5B"];
+      h+='<tr><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:26px;height:26px;border-radius:50%;background:'+colors[i]+';display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">'+(i+1)+'</div><span style="font-weight:500">'+esc(f.name)+'</span></div></td>';
+      ['adt','chd','senior'].forEach(function(fld){ h+='<td style="text-align:center"><input data-row="families" data-id="'+f.id+'" data-field="'+fld+'" data-type="number" value="'+f[fld]+'" style="width:48px;text-align:center" /></td>'; });
+      h+='<td style="text-align:center;font-weight:600;color:#075E6B">'+(f.adt+f.chd+f.senior)+'</td>';
+      h+='<td><input data-row="families" data-id="'+f.id+'" data-field="note" value="'+esc(f.note)+'" placeholder="Ghi chú" style="min-width:160px" /></td></tr>';
+    });
+    h+='<tr class="total-row"><td>Tổng cộng</td><td colspan="3"></td><td style="text-align:center;color:#075E6B">'+totalGuests+'</td><td></td></tr></tbody></table></div></div>';
 
-    h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.25rem;">';
-    var stats=[ {label:"Tổng khách",val:totalGuests+" người",grad:"linear-gradient(135deg,#075E6B,#06AED5)"}, {label:"Số nhà",val:"4 nhóm",grad:"linear-gradient(135deg,#99245C,#FF6FA8)"}, {label:"Tổng chi phí",val:vnd(grandTotal),grad:"linear-gradient(135deg,#8A5A00,#FFC93C)"}, {label:"Số ngày",val:(data.info.numDays||5)+" ngày",grad:"linear-gradient(135deg,#8C2A1E,#FF6B5B)"} ];
-    stats.forEach(function(s){
-      h+='<div style="background:'+s.grad+';border-radius:14px;padding:16px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);">';
-      h+='<div style="font-size:12px;opacity:0.8;margin-bottom:4px;">'+s.label+'</div>';
-      h+='<div style="font-size:18px;font-weight:700;">'+s.val+'</div></div>';
-    });
-    h+='</div>';
+    h+='<div class="card card-amber">';
+    h+='<div class="card-title"><span class="card-title-dot dot-amber"></span>Tổng hợp chi phí theo hạng mục</div>';
+    h+='<div style="overflow-x:auto"><table><thead><tr><th>Hạng mục</th>';
+    data.families.forEach(function(f){ h+='<th style="text-align:right">'+esc(f.name)+'</th>'; });
+    h+='<th style="text-align:right">Tổng</th></tr></thead><tbody>';
+    h+='<tr><td>📍 Địa điểm</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(locTotal)+'</td></tr>';
+    h+='<tr><td>🍜 Ăn uống</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(mealTotal)+'</td></tr>';
+    h+='<tr><td>🏨 Khách sạn</td>'; roomPF.forEach(function(v){ h+='<td style="text-align:right">'+vnd(v)+'</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(roomTotal)+'</td></tr>';
+    h+='<tr><td>📦 Khác</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right"><input class="needs-fill" data-path="otherCost" data-type="number" value="'+otherTotal+'" style="width:120px;text-align:right;font-weight:600;color:#C73E2E" /></td></tr>';
+    h+='<tr class="total-row"><td colspan="'+(data.families.length+1)+'" style="text-align:right">Tổng chi phí</td><td style="text-align:right;color:#C73E2E">'+vnd(grandTotal)+'</td></tr></tbody></table></div><p style="font-size:12px;color:#B4B2A9;margin-top:8px;">Địa điểm/Ăn uống cộng từ tab Lịch trình · Khách sạn cộng từ tab Phòng ốc · Khác tự nhập.</p></div>';
 
-    h+='<div class="card card-teal" style="background: linear-gradient(135deg, #E0F7FA, #fff);">';
-    h+='<div class="card-title"><span class="card-title-dot dot-teal"></span>Nhập liệu thông minh bằng AI Gemini Pro</div>';
-    h+='<div style="display:flex; gap:8px; align-items: center; flex-wrap: wrap;">';
-    h+='<input id="ai-input" placeholder="Nói hoặc nhập lệnh... (VD: Trưa nay Nhà Thi trả 1 triệu rưỡi hải sản ở Phú Yên)" style="flex:1; min-width:220px; padding:10px; border-radius:8px;" />';
-    h+='<button id="mic-btn" type="button" style="cursor:pointer; background:#fff; border:1px solid #7c3aed; padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:#7c3aed; font-weight:600; font-family:inherit; font-size:12px;">🎙️ Nói</button>';
-    h+='<label for="ai-file" style="cursor:pointer; background:#fff; border:1px solid var(--teal); padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:var(--teal); font-weight:600; font-size:12px;">📷 Đính ảnh</label>';
-    h+='<input type="file" id="ai-file" accept="image/*" style="display:none;" />';
-    h+='<button id="ai-btn" style="cursor:pointer; background:var(--teal); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-weight:600; font-family:inherit; font-size:12px;">Xử lý ngay</button>';
-    h+='</div>';
-    h+='<p id="ai-status" style="font-size:12px; color:var(--gray); margin-top:8px; font-weight:500;"></p>';
-    h+='</div>';
+    h+='<div class="card card-coral">';
+    h+='<div class="card-title"><span class="card-title-dot dot-coral"></span>Theo dõi thanh toán</div>';
+    h+='<div style="overflow-x:auto"><table><thead><tr><th>Nhà</th><th style="text-align:right">Tổng chi phí</th><th style="text-align:right">Đặt cọc</th><th style="text-align:right">Đã thanh toán</th><th style="text-align:right">Còn lại</th><th>Trạng thái</th></tr></thead><tbody>';
+    var pColors=["#06AED5","#FF6FA8","#FF6B5B"];
+    data.payments.filter(function(p){ return p.family!=="OB Nội"; }).forEach(function(p,i){
+      var totalCost=Number(p.totalCost)||0, remaining=totalCost-(Number(p.deposit)||0)-(Number(p.paid)||0), paidSum=(Number(p.deposit)||0)+(Number(p.paid)||0);
+      var autoStatus=remaining<=0?"✅ Đủ":(paidSum>0?"🟡 Còn thiếu":"🔴 Chưa đóng"), badgeCls=remaining<=0?"status-full":(paidSum>0?"status-partial":"status-none");
+      h+='<tr><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:26px;height:26px;border-radius:50%;background:'+pColors[i]+';display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">'+(i+1)+'</div><span style="font-weight:500">'+esc(p.family)+'</span></div></td>';
+      h+='<td style="text-align:right"><input class="needs-fill" data-row="payments" data-id="'+p.id+'" data-field="totalCost" data-type="number" value="'+totalCost+'" style="width:110px;text-align:right" /></td>';
+      h+='<td style="text-align:right"><input class="needs-fill" data-row="payments" data-id="'+p.id+'" data-field="deposit" data-type="number" value="'+p.deposit+'" style="width:110px;text-align:right" /></td>';
+      h+='<td style="text-align:right"><input class="needs-fill" data-row="payments" data-id="'+p.id+'" data-field="paid" data-type="number" value="'+p.paid+'" style="width:110px;text-align:right" /></td>';
+      h+='<td style="text-align:right;font-weight:600;color:'+(remaining>0?"#991b1b":"#065f46")+'">'+vnd(remaining)+'</td><td><span class="badge '+badgeCls+'">'+esc(autoStatus)+'</span></td></tr>';
+    });
+    h+='</tbody></table></div></div>';
+    return h;
+  }
 
-    h+='<div class="card card-purple">';
-    h+='<div class="card-title"><span class="card-title-dot dot-purple"></span>Thành viên tham gia</div>';
-    h+='<div style="overflow-x:auto"><table><thead><tr><th>Nhà</th><th style="text-align:center">Người lớn</th><th style="text-align:center">Trẻ em</th><th style="text-align:center">Cao tuổi</th><th style="text-align:center">Tổng</th><th>Ghi chú</th></tr></thead><tbody>';
-    data.families.forEach(function(f,i){
-      var colors=["#06AED5","#FF6FA8","#FFC93C","#FF6B5B"];
-      h+='<tr><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:26px;height:26px;border-radius:50%;background:'+colors[i]+';display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">'+(i+1)+'</div><span style="font-weight:500">'+esc(f.name)+'</span></div></td>';
-      ['adt','chd','senior'].forEach(function(fld){ h+='<td style="text-align:center"><input data-row="families" data-id="'+f.id+'" data-field="'+fld+'" data-type="number" value="'+f[fld]+'" style="width:48px;text-align:center" /></td>'; });
-      h+='<td style="text-align:center;font-weight:600;color:#075E6B">'+(f.adt+f.chd+f.senior)+'</td>';
-      h+='<td><input data-row="families" data-id="'+f.id+'" data-field="note" value="'+esc(f.note)+'" placeholder="Ghi chú" style="min-width:160px" /></td></tr>';
-    });
-    h+='<tr class="total-row"><td>Tổng cộng</td><td colspan="3"></td><td style="text-align:center;color:#075E6B">'+totalGuests+'</td><td></td></tr></tbody></table></div></div>';
+  function dayTotal(day){ return (day.locations||[]).reduce(function(s,l){return s+(Number(l.cost)||0);},0) + (day.meals||[]).reduce(function(s,m){return s+(Number(m.cost)||0);},0); }
 
-    h+='<div class="card card-amber">';
-    h+='<div class="card-title"><span class="card-title-dot dot-amber"></span>Tổng hợp chi phí theo hạng mục</div>';
-    h+='<div style="overflow-x:auto"><table><thead><tr><th>Hạng mục</th>';
-    data.families.forEach(function(f){ h+='<th style="text-align:right">'+esc(f.name)+'</th>'; });
-    h+='<th style="text-align:right">Tổng</th></tr></thead><tbody>';
-    h+='<tr><td>📍 Địa điểm</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(locTotal)+'</td></tr>';
-    h+='<tr><td>🍜 Ăn uống</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(mealTotal)+'</td></tr>';
-    h+='<tr><td>🏨 Khách sạn</td>'; roomPF.forEach(function(v){ h+='<td style="text-align:right">'+vnd(v)+'</td>'; }); h+='<td style="text-align:right;font-weight:600;color:#C73E2E">'+vnd(roomTotal)+'</td></tr>';
-    h+='<tr><td>📦 Khác</td>'; data.families.forEach(function(){ h+='<td style="text-align:right;color:#B4B2A9">—</td>'; }); h+='<td style="text-align:right"><input class="needs-fill" data-path="otherCost" data-type="number" value="'+otherTotal+'" style="width:120px;text-align:right;font-weight:600;color:#C73E2E" /></td></tr>';
-    h+='<tr class="total-row"><td colspan="'+(data.families.length+1)+'" style="text-align:right">Tổng chi phí</td><td style="text-align:right;color:#C73E2E">'+vnd(grandTotal)+'</td></tr></tbody></table></div><p style="font-size:12px;color:#B4B2A9;margin-top:8px;">Địa điểm/Ăn uống cộng từ tab Lịch trình · Khách sạn cộng từ tab Phòng ốc · Khác tự nhập.</p></div>';
+  function renderItinListSection(day, listKey, icon_, label, placeholder){
+    var list = day[listKey] || [], h = '<div style="margin-bottom:14px;"><p class="field-label">'+icon_+' '+label+'</p>';
+    list.forEach(function(item){
+      h+='<div class="grid-2" style="gap:8px;margin-bottom:6px;align-items:center;"><input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="name" value="'+esc(item.name)+'" placeholder="'+placeholder+'" class="'+((!item.name)?"needs-fill":"")+'" />';
+      h+='<div style="display:flex;gap:6px;align-items:center;"><input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="cost" data-type="number" value="'+(item.cost||0)+'" placeholder="Chi phí" style="text-align:right;" /><button class="icon-btn" data-remove-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" title="Xóa dòng">'+icon("trash")+'</button></div></div>';
+    });
+    return h+'<button class="add-btn" data-add-itin-item="'+listKey+'" data-day-id="'+day.id+'" style="padding:6px 10px;font-size:12px;margin-top:2px;">'+icon("plus")+' Thêm '+label.toLowerCase()+'</button></div>';
+  }
 
-    h+='<div class="card card-coral">';
-    h+='<div class="card-title"><span class="card-title-dot dot-coral"></span>Theo dõi thanh toán</div>';
-    h+='<div style="overflow-x:auto"><table><thead><tr><th>Nhà</th><th style="text-align:right">Tổng chi phí</th><th style="text-align:right">Đặt cọc</th><th style="text-align:right">Đã thanh toán</th><th style="text-align:right">Còn lại</th><th>Trạng thái</th></tr></thead><tbody>';
-    var pColors=["#06AED5","#FF6FA8","#FF6B5B"];
-    data.payments.filter(function(p){ return p.family!=="OB Nội"; }).forEach(function(p,i){
-      var totalCost=Number(p.totalCost)||0, remaining=totalCost-(Number(p.deposit)||0)-(Number(p.paid)||0), paidSum=(Number(p.deposit)||0)+(Number(p.paid)||0);
-      var autoStatus=remaining<=0?"✅ Đủ":(paidSum>0?"🟡 Còn thiếu":"🔴 Chưa đóng"), badgeCls=remaining<=0?"status-full":(paidSum>0?"status-partial":"status-none");
-      h+='<tr><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:26px;height:26px;border-radius:50%;background:'+pColors[i]+';display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">'+(i+1)+'</div><span style="font-weight:500">'+esc(p.family)+'</span></div></td>';
-      h+='<td style="text-align:right"><input class="needs-fill" data-row="payments" data-id="'+p.id+'" data-field="totalCost" data-type="number" value="'+totalCost+'" style="width:110px;text-align:right" /></td>';
-      h+='<td style="text-align:right"><input class="needs-fill" data-row="payments" data-id="'+p.id+'" data-field="deposit" data-type="number" value="'+p.deposit+'" style="width:110px;text-align:right" /></td>';
-      h+='<td style="text-align:right"><input class="needs-fill" data-row="payments" data-id="'+p.id+'" data-field="paid" data-type="number" value="'+p.paid+'" style="width:110px;text-align:right" /></td>';
-      h+='<td style="text-align:right;font-weight:600;color:'+(remaining>0?"#991b1b":"#065f46")+'">'+vnd(remaining)+'</td><td><span class="badge '+badgeCls+'">'+esc(autoStatus)+'</span></td></tr>';
-    });
-    h+='</tbody></table></div></div>';
-    return h;
-  }
+  function renderItinerary(){
+    var h="";
+    state.data.itinerary.forEach(function(day){
+      h+='<div class="card card-day"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="day-index">'+day.dayIndex+'</div><input type="date" data-row="itinerary" data-id="'+day.id+'" data-field="date" value="'+esc(day.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="font-size:14px;font-weight:700;color:#3C3489;">'+vnd(dayTotal(day))+'</div></div>';
+      h+=renderItinListSection(day,"locations","📍","Địa điểm","VD: Bãi biển Mỹ Khê"); h+=renderItinListSection(day,"meals","🍜","Ăn uống","VD: Bún chả cá");
+      h+='<div><p class="field-label-sm">📝 Ghi chú</p><input data-row="itinerary" data-id="'+day.id+'" data-field="note" value="'+esc(day.note)+'" placeholder="Lưu ý thêm" /></div></div>';
+    });
+    return h;
+  }
 
-  function dayTotal(day){ return (day.locations||[]).reduce(function(s,l){return s+(Number(l.cost)||0);},0) + (day.meals||[]).reduce(function(s,m){return s+(Number(m.cost)||0);},0); }
+  function safeKs(r, ks){ var k = (r && r[ks]) ? r[ks] : {}; return { hotel: k.hotel||"", address: k.address||"", phone: k.phone||"", rows: (k.rows && k.rows.length) ? k.rows : [{id:uid(), family:"Nhà Tú", roomType:"", numRooms:1, pricePerNight:0, deposit:0}] }; }
+  
+  function rowTotal(row){ return Number(row.pricePerNight)||0; } 
+  
+  function roomNightTotal(r){ var a=safeKs(r,"ksA"), b=safeKs(r,"ksB"); return a.rows.reduce(function(s,row){return s+rowTotal(row);},0) + b.rows.reduce(function(s,row){return s+rowTotal(row);},0); }
+  function roomNightDeposit(r){ var a=safeKs(r,"ksA"), b=safeKs(r,"ksB"); return a.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0) + b.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0); }
+  function roomCostByFamily(famName){ var sum=0; state.data.rooms.forEach(function(r){ ["ksA","ksB"].forEach(function(ks){ safeKs(r,ks).rows.forEach(function(row){ if(row.family===famName) sum += rowTotal(row); }); }); }); return sum; }
 
-  function renderItinListSection(day, listKey, icon_, label, placeholder){
-    var list = day[listKey] || [], h = '<div style="margin-bottom:14px;"><p class="field-label">'+icon_+' '+label+'</p>';
-    list.forEach(function(item){
-      h+='<div class="grid-2" style="gap:8px;margin-bottom:6px;align-items:center;"><input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="name" value="'+esc(item.name)+'" placeholder="'+placeholder+'" class="'+((!item.name)?"needs-fill":"")+'" />';
-      h+='<div style="display:flex;gap:6px;align-items:center;"><input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="cost" data-type="number" value="'+(item.cost||0)+'" placeholder="Chi phí" style="text-align:right;" /><button class="icon-btn" data-remove-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" title="Xóa dòng">'+icon("trash")+'</button></div></div>';
-    });
-    return h+'<button class="add-btn" data-add-itin-item="'+listKey+'" data-day-id="'+day.id+'" style="padding:6px 10px;font-size:12px;margin-top:2px;">'+icon("plus")+' Thêm '+label.toLowerCase()+'</button></div>';
-  }
+  function renderRooms(){
+    var data=state.data, totalCost=data.rooms.reduce(function(s,r){ return s+roomNightTotal(r); },0), totalDeposit=data.rooms.reduce(function(s,r){ return s+roomNightDeposit(r); },0), FAM_OPTIONS=["Nhà Tú","Nhà Thi","OB Nội","Nhà Dung"], h="";
+    data.rooms.forEach(function(r){
+      var nightTotal=roomNightTotal(r), nightDeposit=roomNightDeposit(r);
+      h+='<div class="card card-amber"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="night-index">'+r.nightIndex+'</div><input type="date" data-row="rooms" data-id="'+r.id+'" data-field="date" value="'+esc(r.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="text-align:right;"><div style="font-size:15px;font-weight:700;color:#8A5A00;">'+vnd(nightTotal)+'</div><div style="font-size:11px;color:#888780;">Cọc: '+vnd(nightDeposit)+' · Còn: '+vnd(nightTotal-nightDeposit)+'</div></div><button class="icon-btn" data-remove="rooms" data-id="'+r.id+'" title="Xóa đêm này">'+icon("trash")+'</button></div><div class="grid-2">';
+      ["ksA","ksB"].forEach(function(ks,ksi){
+        var k=safeKs(r,ks), mapsUrl = k.address ? (/^https?:\/\//.test(k.address) ? k.address : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(k.address)) : null, ksSub = k.rows.reduce(function(s,row){return s+rowTotal(row);},0), ksDep = k.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0);
+        h+='<div style="border:1px solid var(--border);border-radius:var(--radius-md);padding:10px;"><div style="font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">🏨 Khách sạn '+(ksi===0?"A":"B")+'</div>';
+        h+='<input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.hotel" value="'+esc(k.hotel)+'" placeholder="Tên khách sạn (Tự tra bản đồ gợi ý)" class="'+((!k.hotel)?"needs-fill":"")+'" style="font-weight:500;margin-bottom:6px;" />';
+        h+='<div class="grid-2" style="gap:6px;margin-bottom:6px;"><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.address" value="'+esc(k.address)+'" placeholder="Địa chỉ tự điền" style="font-size:11px;" readonly /><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.phone" value="'+esc(k.phone)+'" placeholder="SĐT tự điền" style="font-size:11px;" readonly /></div>';
+        if(mapsUrl && k.address) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-bottom:8px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
+        h+='<div style="overflow-x:auto;"><table style="font-size:11px;"><thead><tr>';
+        
+        ["Nhà","Giá/đêm","Cọc","Còn",""].forEach(function(col){ var align=(col==="Giá/đêm"||col==="Cọc"||col==="Còn")?"right":"left"; h+='<th style="padding:4px 6px;text-align:'+align+';">'+col+'</th>'; }); 
+        
+        h+='</tr></thead><tbody>';
+        k.rows.forEach(function(row){
+          var sub=rowTotal(row), dep=Number(row.deposit)||0, rem=sub-dep;
+          h+='<tr><td style="padding:4px 6px;min-width:90px;"><select data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="Smile" data-row-id="'+row.id+'" data-row-field="family" style="font-size:11px;padding:4px 6px;">'+selOpts(FAM_OPTIONS,row.family)+'</select></td>';
+          h+='<td style="padding:4px 6px;min-width:90px;"><input class="needs-fill" data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="pricePerNight" data-type="number" value="'+(row.pricePerNight||0)+'" style="font-size:11px;padding:4px 6px;text-align:right;" /></td>';
+          h+='<td style="padding:4px 6px;min-width:90px;"><input data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="deposit" data-type="number" value="'+dep+'" style="font-size:11px;padding:4px 6px;text-align:right;" /></td>';
+          h+='<td style="padding:4px 6px;text-align:right;font-weight:600;white-space:nowrap;color:'+(rem>0?"#991b1b":"#065f46")+';">'+vnd(rem)+'</td><td><button class="icon-btn" data-remove-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" title="Xóa dòng">'+icon("trash")+'</button></td></tr>';
+        });
+        h+='</tbody></table></div><button class="add-btn" data-add-ks-row="'+ks+'" data-room-id="'+r.id+'" style="margin-top:6px;padding:6px 10px;font-size:11px;">'+icon("plus")+' Thêm nhà vào KS '+(ksi===0?"A":"B")+'</button><div style="margin-top:6px;font-size:11px;color:var(--gray);text-align:right;">Tổng KS: <b>'+vnd(ksSub)+'</b> · Cọc: '+vnd(ksDep)+'</div></div>';
+      });
+      h+='</div><div style="margin-top:10px;"><p class="field-label-sm">📝 Ghi chú đêm</p><input data-row="rooms" data-id="'+r.id+'" data-field="note" value="'+esc(r.note)+'" placeholder="Ghi chú" /></div></div>';
+    });
+    h+='<div class="totals-bar" style="margin-bottom:14px;"><div><div class="totals-bar-label">💰 Tổng chi phí khách sạn</div><div style="font-size:12px;color:var(--gray);margin-top:2px;">Đã cọc: '+vnd(totalDeposit)+' · Còn lại: '+vnd(totalCost-totalDeposit)+'</div></div><div class="totals-bar-value">'+vnd(totalCost)+'</div></div>';
+    return h+'<button class="add-btn" id="add-room-btn">'+icon("plus")+' Thêm đêm</button>';
+  }
 
-  function renderItinerary(){
-    var h="";
-    state.data.itinerary.forEach(function(day){
-      h+='<div class="card card-day"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="day-index">'+day.dayIndex+'</div><input type="date" data-row="itinerary" data-id="'+day.id+'" data-field="date" value="'+esc(day.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="font-size:14px;font-weight:700;color:#3C3489;">'+vnd(dayTotal(day))+'</div></div>';
-      h+=renderItinListSection(day,"locations","📍","Địa điểm","VD: Bãi biển Mỹ Khê"); h+=renderItinListSection(day,"meals","🍜","Ăn uống","VD: Bún chả cá");
-      h+='<div><p class="field-label-sm">📝 Ghi chú</p><input data-row="itinerary" data-id="'+day.id+'" data-field="note" value="'+esc(day.note)+'" placeholder="Lưu ý thêm" /></div></div>';
-    });
-    return h;
-  }
+  function renderExpenses(){
+    var data=state.data, total=data.expenses.reduce(function(s,e){return s+(Number(e.amount)||0);},0), h='<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Ngày</th><th>Hạng mục</th><th>Mô tả</th><th>Nhà</th><th style="text-align:right">Số tiền</th><th>Người trả</th><th>Ghi chú</th><th></th></tr></thead><tbody>';
+    data.expenses.forEach(function(e,idx){
+      h+='<tr class="expense-row"><td style="color:#B4B2A9;text-align:center;font-size:12px">'+(idx+1)+'</td>';
+      h+='<td><input type="date" data-row="expenses" data-id="'+e.id+'" data-field="date" value="'+esc(e.date)+'" style="width:130px" /></td><td><select data-row="expenses" data-id="'+e.id+'" data-field="category" style="width:130px">'+selOpts(EXPENSE_CATEGORIES,e.category)+'</select></td><td><input data-row="expenses" data-id="'+e.id+'" data-field="description" value="'+esc(e.description)+'" placeholder="Mô tả" style="width:150px" /></td><td><select data-row="expenses" data-id="'+e.id+'" data-field="family" style="width:110px">'+selOpts(FAMILY_NAMES,e.family)+'</select></td><td style="text-align:right"><input class="needs-fill" data-row="expenses" data-id="'+e.id+'" data-field="amount" data-type="number" value="'+e.amount+'" style="width:110px;text-align:right" /></td><td><input data-row="expenses" data-id="'+e.id+'" data-field="payer" value="'+esc(e.payer)+'" placeholder="Ai trả" style="width:90px" /></td><td><input data-row="expenses" data-id="'+e.id+'" data-field="note" value="'+esc(e.note)+'" placeholder="Ghi chú" style="width:100px" /></td><td><button class="icon-btn" data-remove="expenses" data-id="'+e.id+'">'+icon("trash")+'</button></td></tr>';
+    });
+    h+='<tr class="total-row"><td colspan="5" style="text-align:right;font-size:13px">💰 Tổng chi phí</td><td style="text-align:right;font-size:15px;color:#C73E2E">'+vnd(total)+'</td><td colspan="3"></td></tr></tbody></table></div>';
+    return h+'<button class="add-btn" id="add-expense-btn">'+icon("plus")+' Thêm khoản chi</button>';
+  }
 
-  function safeKs(r, ks){ var k = (r && r[ks]) ? r[ks] : {}; return { hotel: k.hotel||"", address: k.address||"", phone: k.phone||"", rows: (k.rows && k.rows.length) ? k.rows : [{id:uid(), family:"Nhà Tú", roomType:"", numRooms:1, pricePerNight:0, deposit:0}] }; }
-  
-  function rowTotal(row){ return Number(row.pricePerNight)||0; } 
-  
-  function roomNightTotal(r){ var a=safeKs(r,"ksA"), b=safeKs(r,"ksB"); return a.rows.reduce(function(s,row){return s+rowTotal(row);},0) + b.rows.reduce(function(s,row){return s+rowTotal(row);},0); }
-  function roomNightDeposit(r){ var a=safeKs(r,"ksA"), b=safeKs(r,"ksB"); return a.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0) + b.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0); }
-  function roomCostByFamily(famName){ var sum=0; state.data.rooms.forEach(function(r){ ["ksA","ksB"].forEach(function(ks){ safeKs(r,ks).rows.forEach(function(row){ if(row.family===famName) sum += rowTotal(row); }); }); }); return sum; }
+  function startSpeechRecognition() {
+    const micBtn = document.getElementById("mic-btn");
+    const inputEl = document.getElementById("ai-input");
+    const statusEl = document.getElementById("ai-status");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  function renderRooms(){
-    var data=state.data, totalCost=data.rooms.reduce(function(s,r){ return s+roomNightTotal(r); },0), totalDeposit=data.rooms.reduce(function(s,r){ return s+roomNightDeposit(r); },0), FAM_OPTIONS=["Nhà Tú","Nhà Thi","OB Nội","Nhà Dung"], h="";
-    data.rooms.forEach(function(r){
-      var nightTotal=roomNightTotal(r), nightDeposit=roomNightDeposit(r);
-      h+='<div class="card card-amber"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="night-index">'+r.nightIndex+'</div><input type="date" data-row="rooms" data-id="'+r.id+'" data-field="date" value="'+esc(r.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="text-align:right;"><div style="font-size:15px;font-weight:700;color:#8A5A00;">'+vnd(nightTotal)+'</div><div style="font-size:11px;color:#888780;">Cọc: '+vnd(nightDeposit)+' · Còn: '+vnd(nightTotal-nightDeposit)+'</div></div><button class="icon-btn" data-remove="rooms" data-id="'+r.id+'" title="Xóa đêm này">'+icon("trash")+'</button></div><div class="grid-2">';
-      ["ksA","ksB"].forEach(function(ks,ksi){
-        var k=safeKs(r,ks), mapsUrl = k.address ? (/^https?:\/\//.test(k.address) ? k.address : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(k.address)) : null, ksSub = k.rows.reduce(function(s,row){return s+rowTotal(row);},0), ksDep = k.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0);
-        h+='<div style="border:1px solid var(--border);border-radius:var(--radius-md);padding:10px;"><div style="font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">🏨 Khách sạn '+(ksi===0?"A":"B")+'</div>';
-        h+='<input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.hotel" value="'+esc(k.hotel)+'" placeholder="Tên khách sạn (Tự tra bản đồ gợi ý)" class="'+((!k.hotel)?"needs-fill":"")+'" style="font-weight:500;margin-bottom:6px;" />';
-        h+='<div class="grid-2" style="gap:6px;margin-bottom:6px;"><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.address" value="'+esc(k.address)+'" placeholder="Địa chỉ tự điền" style="font-size:11px;" readonly /><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.phone" value="'+esc(k.phone)+'" placeholder="SĐT tự điền" style="font-size:11px;" readonly /></div>';
-        if(mapsUrl && k.address) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-bottom:8px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
-        h+='<div style="overflow-x:auto;"><table style="font-size:11px;"><thead><tr>';
-        
-        ["Nhà","Giá/đêm","Cọc","Còn",""].forEach(function(col){ var align=(col==="Giá/đêm"||col==="Cọc"||col==="Còn")?"right":"left"; h+='<th style="padding:4px 6px;text-align:'+align+';">'+col+'</th>'; }); 
-        
-        h+='</tr></thead><tbody>';
-        k.rows.forEach(function(row){
-          var sub=rowTotal(row), dep=Number(row.deposit)||0, rem=sub-dep;
-          h+='<tr><td style="padding:4px 6px;min-width:90px;"><select data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="Smile" data-row-id="'+row.id+'" data-row-field="family" style="font-size:11px;padding:4px 6px;">'+selOpts(FAM_OPTIONS,row.family)+'</select></td>';
-          h+='<td style="padding:4px 6px;min-width:90px;"><input class="needs-fill" data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="pricePerNight" data-type="number" value="'+(row.pricePerNight||0)+'" style="font-size:11px;padding:4px 6px;text-align:right;" /></td>';
-          h+='<td style="padding:4px 6px;min-width:90px;"><input data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="deposit" data-type="number" value="'+dep+'" style="font-size:11px;padding:4px 6px;text-align:right;" /></td>';
-          h+='<td style="padding:4px 6px;text-align:right;font-weight:600;white-space:nowrap;color:'+(rem>0?"#991b1b":"#065f46")+';">'+vnd(rem)+'</td><td><button class="icon-btn" data-remove-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" title="Xóa dòng">'+icon("trash")+'</button></td></tr>';
-        });
-        h+='</tbody></table></div><button class="add-btn" data-add-ks-row="'+ks+'" data-room-id="'+r.id+'" style="margin-top:6px;padding:6px 10px;font-size:11px;">'+icon("plus")+' Thêm nhà vào KS '+(ksi===0?"A":"B")+'</button><div style="margin-top:6px;font-size:11px;color:var(--gray);text-align:right;">Tổng KS: <b>'+vnd(ksSub)+'</b> · Cọc: '+vnd(ksDep)+'</div></div>';
-      });
-      h+='</div><div style="margin-top:10px;"><p class="field-label-sm">📝 Ghi chú đêm</p><input data-row="rooms" data-id="'+r.id+'" data-field="note" value="'+esc(r.note)+'" placeholder="Ghi chú" /></div></div>';
-    });
-    h+='<div class="totals-bar" style="margin-bottom:14px;"><div><div class="totals-bar-label">💰 Tổng chi phí khách sạn</div><div style="font-size:12px;color:var(--gray);margin-top:2px;">Đã cọc: '+vnd(totalDeposit)+' · Còn lại: '+vnd(totalCost-totalDeposit)+'</div></div><div class="totals-bar-value">'+vnd(totalCost)+'</div></div>';
-    return h+'<button class="add-btn" id="add-room-btn">'+icon("plus")+' Thêm đêm</button>';
-  }
+    if (!SpeechRecognition) { statusEl.innerHTML = "❌ Trình duyệt không hỗ trợ Mic."; return; }
 
-  function renderExpenses(){
-    var data=state.data, total=data.expenses.reduce(function(s,e){return s+(Number(e.amount)||0);},0), h='<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Ngày</th><th>Hạng mục</th><th>Mô tả</th><th>Nhà</th><th style="text-align:right">Số tiền</th><th>Người trả</th><th>Ghi chú</th><th></th></tr></thead><tbody>';
-    data.expenses.forEach(function(e,idx){
-      h+='<tr class="expense-row"><td style="color:#B4B2A9;text-align:center;font-size:12px">'+(idx+1)+'</td>';
-      h+='<td><input type="date" data-row="expenses" data-id="'+e.id+'" data-field="date" value="'+esc(e.date)+'" style="width:130px" /></td><td><select data-row="expenses" data-id="'+e.id+'" data-field="category" style="width:130px">'+selOpts(EXPENSE_CATEGORIES,e.category)+'</select></td><td><input data-row="expenses" data-id="'+e.id+'" data-field="description" value="'+esc(e.description)+'" placeholder="Mô tả" style="width:150px" /></td><td><select data-row="expenses" data-id="'+e.id+'" data-field="family" style="width:110px">'+selOpts(FAMILY_NAMES,e.family)+'</select></td><td style="text-align:right"><input class="needs-fill" data-row="expenses" data-id="'+e.id+'" data-field="amount" data-type="number" value="'+e.amount+'" style="width:110px;text-align:right" /></td><td><input data-row="expenses" data-id="'+e.id+'" data-field="payer" value="'+esc(e.payer)+'" placeholder="Ai trả" style="width:90px" /></td><td><input data-row="expenses" data-id="'+e.id+'" data-field="note" value="'+esc(e.note)+'" placeholder="Ghi chú" style="width:100px" /></td><td><button class="icon-btn" data-remove="expenses" data-id="'+e.id+'">'+icon("trash")+'</button></td></tr>';
-    });
-    h+='<tr class="total-row"><td colspan="5" style="text-align:right;font-size:13px">💰 Tổng chi phí</td><td style="text-align:right;font-size:15px;color:#C73E2E">'+vnd(total)+'</td><td colspan="3"></td></tr></tbody></table></div>';
-    return h+'<button class="add-btn" id="add-expense-btn">'+icon("plus")+' Thêm khoản chi</button>';
-  }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "vi-VN";
+    recognition.interimResults = false;
 
-  function fileToGenerativePart(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve({ inlineData: { data: reader.result.split(',')[1], mimeType: file.type } });
-      reader.readAsDataURL(file);
-    });
-  }
+    recognition.onstart = () => {
+      micBtn.style.background = "#fee2e2"; micBtn.style.color = "#dc2626"; micBtn.style.borderColor = "#dc2626"; micBtn.innerHTML = "🛑 Nghe...";
+      statusEl.innerHTML = "🎙️ Đang mở Micro, bạn nói rõ ràng câu lệnh chi phí nhé...";
+    };
+    recognition.onerror = () => { statusEl.innerHTML = "❌ Lỗi ghi âm."; resetMic(); };
+    recognition.onend = () => { resetMic(); };
+    
+    recognition.onresult = (e) => {
+      const resultText = e.results[0][0].transcript;
+      inputEl.value = resultText;
+      statusEl.innerHTML = `✓ Điền chữ: "${resultText}". Nhấn ➕ **Cập nhật chi phí** bên cạnh để lưu.`;
+    };
 
-  async function processExpenseWithAI() {
-    const inputEl = document.getElementById("ai-input");
-    const fileEl = document.getElementById("ai-file");
-    const statusEl = document.getElementById("ai-status");
-    const text = inputEl.value.trim();
-    const file = fileEl.files[0];
-    
-    if (!text && !file) { statusEl.innerHTML = "❌ Hãy nhập câu lệnh hoặc đính một bức ảnh bill tính tiền."; return; }
-    document.getElementById("ai-btn").disabled = true;
-    statusEl.innerHTML = '<span class="spin" style="display:inline-block; margin-right:5px;">⏳</span> Gemini Pro 1.5 đang xử lý dữ liệu...';
+    function resetMic() { micBtn.style.background = "#fff"; micBtn.style.color = "#7c3aed"; micBtn.style.borderColor = "#7c3aed"; micBtn.innerHTML = "🎙️ Nói"; }
+    recognition.start();
+  }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`;
-    let parts = [];
+  function render(){
+    var t=state.activeTab, h=renderHeader()+renderTabs()+'<div id="tab-content">';
+    if(t==="overview") h+=renderOverview(); else if(t==="itinerary") h+=renderItinerary(); else if(t==="rooms") h+=renderRooms(); else if(t==="expenses") h+=renderExpenses();
+    h+='</div>'; root.innerHTML=h; attachHandlers();
+  }
 
-    const prompt = `Bạn là kế toán chuyên nghiệp cho tour du lịch 4 gia đình: Nhà Tú, Nhà Thi, OB Nội, Nhà Dung.
-    Danh mục chuẩn: "✈ Di chuyển", "🏨 Khách sạn", "🍜 Ăn uống", "🎡 Tham quan", "🛍 Mua sắm", "📦 Khác".
-    Hãy đọc và bóc tách dữ liệu (văn bản hoặc hình ảnh bill chụp) thành DUY NHẤT một object JSON (không dùng ký tự backtick, không dùng định dạng code block):
-    - "date": Định dạng YYYY-MM-DD (mặc định lấy "2026-07-22" nếu không có)
-    - "category": Chọn đúng 1 danh mục chuẩn ở trên
-    - "description": Mô tả ngắn gọn món chi tiêu
-    - "family": Chọn 1 nhà trả tiền (Nhà Tú, Nhà Thi, OB Nội, Nhà Dung, hoặc "Tất cả")
-    - "amount": Tổng số tiền (số nguyên, ví dụ: 2 triệu là 2000000)
-    - "payer": Tên người chi tiền
-    - "note": Ghi chú phát sinh nếu có`;
+  function attachHandlers(){
+    root.querySelectorAll("[data-tab]").forEach(function(btn){ btn.addEventListener("click",function(e){ var t=e.currentTarget.getAttribute("data-tab"); if(t) setTab(t); }); });
 
-    parts.push({ text: prompt });
-    if (text) parts.push({ text: `Yêu cầu từ người dùng: "${text}"` });
-    if (file) { const imgData = await fileToGenerativePart(file); parts.push(imgData); }
+    var micBtn = document.getElementById("mic-btn"); if (micBtn) micBtn.addEventListener("click", startSpeechRecognition);
 
-    try {
-      const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: parts }] }) });
-      const result = await response.json();
-      let cleanJson = result.candidates[0].content.parts[0].text.trim();
-      
-      if (cleanJson.startsWith("```")) { cleanJson = cleanJson.replace(/^```json|```$/g, "").trim(); }
-      const parsed = JSON.parse(cleanJson);
+    root.querySelectorAll("[data-path]").forEach(function(el){ el.addEventListener("blur",function(){ var val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; updatePath(el.getAttribute("data-path").split("."),val); }); });
+    root.querySelectorAll("[data-row]").forEach(function(el){ if(el.type==="checkbox") return; var commit=function(){ var val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; updateRow(el.getAttribute("data-row"),el.getAttribute("data-id"),el.getAttribute("data-field"),val); }; el.addEventListener(el.tagName==="SELECT"||el.type==="date"?"change":"blur",commit); });
+    root.querySelectorAll("[data-remove]").forEach(function(btn){ btn.addEventListener("click",function(){ removeRow(btn.getAttribute("data-remove"),btn.getAttribute("data-id")); }); });
 
-      addRow("expenses", function() {
-        return { id: uid(), date: parsed.date, category: parsed.category, description: parsed.description, family: parsed.family, amount: parsed.amount, payer: parsed.payer, note: parsed.note };
-      });
+    var arb=document.getElementById("add-room-btn");
+    if(arb) arb.addEventListener("click",function(){ addRow("rooms",function(len){ return {id:uid(),nightIndex:len+1,date:"",ksA:{hotel:"",address:"",phone:"",rows:[{id:uid(),family:"Nhà Tú",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Thi",roomType:"",numRooms:1,pricePerNight:0,deposit:0}]},ksB:{hotel:"",address:"",phone:"",rows:[{id:uid(),family:"OB Nội",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Dung",roomType:"",numRooms:1,pricePerNight:0,deposit:0}]},note:""}; }); });
 
-      inputEl.value = ""; fileEl.value = "";
-      statusEl.innerHTML = '<span style="color:#065f46; font-weight:600;">✅ AI đã phân tích và lưu lên Firebase thành công!</span>';
-    } catch (e) {
-      console.error(e);
-      statusEl.innerHTML = '<span style="color:#991b1b;">❌ Lỗi: AI không bóc tách được dữ liệu. Vui lòng chụp rõ bill hoặc dùng giọng nói.</span>';
-    } finally { document.getElementById("ai-btn").disabled = false; }
-  }
+    root.querySelectorAll("[data-ks-row]").forEach(function(el){ var commit=function(){ var ks=el.getAttribute("data-ks-row"), roomId=el.getAttribute("data-room-id"), rowId=el.getAttribute("data-row-id"), field=el.getAttribute("data-row-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; var row=r[ks].rows.find(function(x){return x.id===rowId;}); if(!row) return; row[field]=val; saveLocalData(n); }; el.addEventListener(el.tagName==="SELECT"?"change":"blur",commit); });
+    root.querySelectorAll("[data-add-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-add-ks-row"), roomId=btn.getAttribute("data-room-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r) return; if(!r[ks]) r[ks]={hotel:"",address:"",phone:"",rows:[]}; if(!r[ks].rows) r[ks].rows=[]; r[ks].rows.push({id:uid(),family:"Nhà Tú",roomType:"",numRooms:1,pricePerNight:0,deposit:0}); saveLocalData(n); }); });
+    root.querySelectorAll("[data-remove-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-remove-ks-row"), roomId=btn.getAttribute("data-room-id"), rowId=btn.getAttribute("data-row-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; if(r[ks].rows.length<=1) return; r[ks].rows=r[ks].rows.filter(function(x){return x.id!==rowId;}); saveLocalData(n); }); });
 
-  function startSpeechRecognition() {
-    const micBtn = document.getElementById("mic-btn");
-    const inputEl = document.getElementById("ai-input");
-    const statusEl = document.getElementById("ai-status");
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
+    root.querySelectorAll("[data-add-member]").forEach(function(btn){ btn.addEventListener("click",function(){ var fam=btn.getAttribute("data-add-member"); addRow("members",function(){ return {id:uid(),family:fam,name:"",type:"ADT",ageNote:"",idNumber:"",phone:"",special:""}; }); }); });
 
-    if (!SpeechRecognition) { statusEl.innerHTML = "❌ Trình duyệt không hỗ trợ Mic. Hãy sử dụng Google Chrome hoặc Safari."; return; }
+    root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; saveLocalData(n); }; el.addEventListener("blur",commit); });
+    root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); saveLocalData(n); }); });
+    root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); saveLocalData(n); }); });
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = "vi-VN";
-    recognition.interimResults = false;
+    if (window.google && google.maps && google.maps.places) {
+      root.querySelectorAll('input[data-field$=".hotel"]').forEach(function(inputEl) {
+        if (inputEl.hasAttribute('data-places-attached')) return;
+        inputEl.setAttribute('data-places-attached', 'true');
+        var autocomplete = new google.maps.places.Autocomplete(inputEl, { fields: ["name", "formatted_address", "formatted_phone_number", "url"], types: ["establishment"] });
+        autocomplete.addListener("place_changed", function() {
+          var place = autocomplete.getPlace(); if (!place.geometry) return;
+          var roomId = inputEl.getAttribute('data-id'), ks = inputEl.getAttribute('data-field').split('.')[0];
+          var n = clone(state.data), r = n.rooms.find(function(x) { return x.id === roomId; });
+          if (r && r[ks]) { r[ks].hotel = place.name || ""; r[ks].address = place.url || place.formatted_address || ""; r[ks].phone = place.formatted_phone_number || ""; saveLocalData(n); }
+        });
+      });
+    }
 
-    recognition.onstart = () => {
-      micBtn.style.background = "#fee2e2"; micBtn.style.color = "#dc2626"; micBtn.style.borderColor = "#dc2626"; micBtn.innerHTML = "🛑 Nghe...";
-      statusEl.innerHTML = "🎙️ Đang mở Micro, bạn nói rõ ràng câu lệnh chi phí nhé...";
-    };
-    recognition.onerror = () => { statusEl.innerHTML = "❌ Lỗi ghi âm. Hãy kiểm tra lại quyền truy cập Mic của trình duyệt."; resetMic(); };
-    recognition.onend = () => { resetMic(); };
-    recognition.onresult = (e) => {
-      const resultText = e.results[0][0].transcript;
-      inputEl.value = resultText;
-      statusEl.innerHTML = `✓ Điền chữ: "${resultText}". Nhấn "Xử lý ngay" để chạy AI.`;
-    };
+    var quickAddBtn = document.getElementById("quick-add-btn");
+    if (quickAddBtn) {
+      quickAddBtn.addEventListener("click", function() {
+        var textVal = document.getElementById("ai-input").value.trim();
+        if (!textVal) return;
 
-    function resetMic() { micBtn.style.background = "#fff"; micBtn.style.color = "#7c3aed"; micBtn.style.borderColor = "#7c3aed"; micBtn.innerHTML = "🎙️ Nói"; }
-    recognition.start();
-  }
+        // Bóc tách nhanh số tiền "triệu", "tr" hoặc số nguyên
+        var amountMatch = textVal.match(/(?:(\d+[\.\d]*)\s?(?:triệu|tr))|(\d{1,3}(?:\.\d{3})+)/i);
+        var amount = 0;
+        if (amountMatch) {
+          if (amountMatch[1]) {
+            amount = parseFloat(amountMatch[1].replace(/\./g, "")) * 1000000;
+          } else if (amountMatch[3]) {
+            amount = parseInt(amountMatch[3].replace(/\./g, ""));
+          }
+        }
 
-  function captureFocus(){
-    var el=document.activeElement; if(!el||!root.contains(el)) return null;
-    var info={selector:null,ss:el.selectionStart,se:el.selectionEnd};
-    if(el.hasAttribute("data-path")) info.selector='[data-path="'+el.getAttribute("data-path")+'"]';
-    else if(el.hasAttribute("data-row")) info.selector='[data-row="'+el.getAttribute("data-row")+'"][data-id="'+el.getAttribute("data-id")+'"][data-field="'+el.getAttribute("data-field")+'"]';
-    return info;
-  }
-  function restoreFocus(info){
-    if(!info||!info.selector) return;
-    var el=root.querySelector(info.selector); if(!el) return; el.focus();
-    try{ if(typeof info.ss==="number"&&el.setSelectionRange) el.setSelectionRange(info.ss,info.se); }catch(e){}
-  }
+        var family = "Tất cả";
+        var payer = "";
+        if (textVal.toLowerCase().indexOf("nhà tú") >= 0) { family = "Nhà Tú"; payer = "Nhà Tú"; }
+        else if (textVal.toLowerCase().indexOf("nhà thi") >= 0) { family = "Nhà Thi"; payer = "Nhà Thi"; }
+        else if (textVal.toLowerCase().indexOf("ob nội") >= 0) { family = "OB Nội"; payer = "OB Nội"; }
+        else if (textVal.toLowerCase().indexOf("nhà dung") >= 0) { family = "Nhà Dung"; payer = "Nhà Dung"; }
 
-  function render(){
-    var fi=captureFocus();
-    if(state.loading){ root.innerHTML='<div class="loading-screen"><div class="spinner"></div><p style="color:#888780;font-size:14px;margin-top:16px;font-weight:500">Đang kết nối Firebase…</p></div>'; return; }
-    var t=state.activeTab, h=renderHeader()+renderTabs()+'<div id="tab-content">';
-    if(t==="overview") h+=renderOverview(); else if(t==="itinerary") h+=renderItinerary(); else if(t==="rooms") h+=renderRooms(); else if(t==="expenses") h+=renderExpenses();
-    h+='</div>'; root.innerHTML=h; attachHandlers(); restoreFocus(fi);
-  }
+        addRow("expenses", function() {
+          return { 
+            id: uid(), 
+            date: "2026-07-22", 
+            category: "🍜 Ăn uống", 
+            description: textVal, 
+            family: family, 
+            amount: amount, 
+            payer: payer, 
+            note: "Nhập liệu bằng giọng nói" 
+          };
+        });
 
-  function attachHandlers(){
-    var sb=document.getElementById("sync-btn");
-    if(sb) sb.addEventListener("click",function(){ state.syncState="loading"; render(); setTimeout(function(){ state.syncState="synced"; state.lastSynced=new Date(); render(); },400); });
+        document.getElementById("ai-input").value = "";
+        document.getElementById("ai-status").innerHTML = "✅ Đã điền nhanh thông tin vào bảng chi phí!";
+        setTab("expenses");
+      });
+    }
+  }
 
-    root.querySelectorAll("[data-tab]").forEach(function(btn){ btn.addEventListener("click",function(e){ var t=e.currentTarget.getAttribute("data-tab"); if(t) setTab(t); }); });
-
-    var aiBtn = document.getElementById("ai-btn"); if (aiBtn) aiBtn.addEventListener("click", processExpenseWithAI);
-    var micBtn = document.getElementById("mic-btn"); if (micBtn) micBtn.addEventListener("click", startSpeechRecognition);
-    var fileInput = document.getElementById("ai-file");
-    if (fileInput) fileInput.addEventListener("change", function() { if(this.files[0]) document.getElementById("ai-status").innerHTML = `📸 File: <b>${this.files[0].name}</b>. Sẵn sàng quét hóa đơn!`; });
-    var aiInput = document.getElementById("ai-input"); if (aiInput) aiInput.addEventListener("keypress", function(e) { if(e.key === "Enter") processExpenseWithAI(); });
-
-    root.querySelectorAll("[data-path]").forEach(function(el){ el.addEventListener("blur",function(){ var val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; updatePath(el.getAttribute("data-path").split("."),val); }); });
-    root.querySelectorAll("[data-row]").forEach(function(el){ if(el.type==="checkbox") return; var commit=function(){ var val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; updateRow(el.getAttribute("data-row"),el.getAttribute("data-id"),el.getAttribute("data-field"),val); }; el.addEventListener(el.tagName==="SELECT"||el.type==="date"?"change":"blur",commit); });
-    root.querySelectorAll("[data-remove]").forEach(function(btn){ btn.addEventListener("click",function(){ removeRow(btn.getAttribute("data-remove"),btn.getAttribute("data-id")); }); });
-
-    var arb=document.getElementById("add-room-btn");
-    if(arb) arb.addEventListener("click",function(){ addRow("rooms",function(len){ return {id:uid(),nightIndex:len+1,date:"",ksA:{hotel:"",address:"",phone:"",rows:[{id:uid(),family:"Nhà Tú",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Thi",roomType:"",numRooms:1,pricePerNight:0,deposit:0}]},ksB:{hotel:"",address:"",phone:"",rows:[{id:uid(),family:"OB Nội",roomType:"",numRooms:1,pricePerNight:0,deposit:0},{id:uid(),family:"Nhà Dung",roomType:"",numRooms:1,pricePerNight:0,deposit:0}]},note:""}; }); });
-
-    root.querySelectorAll("[data-ks-row]").forEach(function(el){ var commit=function(){ var ks=el.getAttribute("data-ks-row"), roomId=el.getAttribute("data-room-id"), rowId=el.getAttribute("data-row-id"), field=el.getAttribute("data-row-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; var row=r[ks].rows.find(function(x){return x.id===rowId;}); if(!row) return; row[field]=val; scheduleSave(n); }; el.addEventListener(el.tagName==="SELECT"?"change":"blur",commit); });
-    root.querySelectorAll("[data-add-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-add-ks-row"), roomId=btn.getAttribute("data-room-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r) return; if(!r[ks]) r[ks]={hotel:"",address:"",phone:"",rows:[]}; if(!r[ks].rows) r[ks].rows=[]; r[ks].rows.push({id:uid(),family:"Nhà Tú",roomType:"",numRooms:1,pricePerNight:0,deposit:0}); scheduleSave(n); }); });
-    root.querySelectorAll("[data-remove-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-remove-ks-row"), roomId=btn.getAttribute("data-room-id"), rowId=btn.getAttribute("data-row-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; if(r[ks].rows.length<=1) return; r[ks].rows=r[ks].rows.filter(function(x){return x.id!==rowId;}); scheduleSave(n); }); });
-
-    var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
-    root.querySelectorAll("[data-add-member]").forEach(function(btn){ btn.addEventListener("click",function(){ var fam=btn.getAttribute("data-add-member"); addRow("members",function(){ return {id:uid(),family:fam,name:"",type:"ADT",ageNote:"",idNumber:"",phone:"",special:""}; }); }); });
-
-    root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
-    root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
-    root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
-
-    if (window.google && google.maps && google.maps.places) {
-      root.querySelectorAll('input[data-field$=".hotel"]').forEach(function(inputEl) {
-        if (inputEl.hasAttribute('data-places-attached')) return;
-        inputEl.setAttribute('data-places-attached', 'true');
-        var autocomplete = new google.maps.places.Autocomplete(inputEl, { fields: ["name", "formatted_address", "formatted_phone_number", "url"], types: ["establishment"] });
-        autocomplete.addListener("place_changed", function() {
-          var place = autocomplete.getPlace(); if (!place.geometry) return;
-          var roomId = inputEl.getAttribute('data-id'), ks = inputEl.getAttribute('data-field').split('.')[0];
-          var n = clone(state.data), r = n.rooms.find(function(x) { return x.id === roomId; });
-          if (r && r[ks]) { r[ks].hotel = place.name || ""; r[ks].address = place.url || place.formatted_address || ""; r[ks].phone = place.formatted_phone_number || ""; scheduleSave(n); }
-        });
-      });
-    }
-  }
-
-  render();
+  render();
 })();
 </script>
 </body>
