@@ -166,8 +166,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
   window.dispatchEvent(new Event("firebase-ready"));
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=ĐIỀN_MÃ_GOOGLE_MAPS_API_KEY_VÀO_ĐÂY&libraries=places&language=vi"></script>
-
 <script>
 (function () {
   var GEMINI_API_KEY = "AQ.Ab8RN6KBnmHIb8suilaP7g914bhLojcDOhP925L-qLzCByPmxw";
@@ -180,10 +178,10 @@ tr.expense-row:hover td { background: #f0fdf4; }
   var CARD_ACCENTS = ["card-teal","card-purple","card-amber","card-coral"];
 
   function uid() { return Math.random().toString(36).slice(2,10); }
-  
-  // 🟢 ĐÂY CHÍNH LÀ THỦ PHẠM GÂY TRẮNG TRANG ĐÃ ĐƯỢC SỬA SẠCH
+
   function esc(s) {
-    return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    if (s == null) return "";
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
   function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
@@ -412,10 +410,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<label for="ai-file" style="cursor:pointer; background:#fff; border:1px solid var(--teal); padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:var(--teal); font-weight:600; font-size:12px;">📷 Đính ảnh</label>';
     h+='<input type="file" id="ai-file" accept="image/*" style="display:none;" />';
     h+='<button id="ai-btn" style="cursor:pointer; background:var(--teal); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-weight:600; font-family:inherit; font-size:12px;">Xử lý ngay</button>';
-    
-    // Nút cập nhật chi phí nhanh
-    h+='<button id="quick-add-btn" style="cursor:pointer; display:none; background:#10B981; color:#fff; border:none; padding:10px 14px; border-radius:8px; font-weight:600; font-size:12px;">➕ Cập nhật chi phí</button>';
-    
+    h+='<button id="quick-add-btn" style="cursor:pointer; display:none; background:#10B981; color:#fff; border:none; padding:10px 14px; border-radius:8px; font-weight:600; font-size:12px; margin-left:6px;">➕ Cập nhật chi phí</button>';
     h+='</div>';
     h+='<p id="ai-status" style="font-size:12px; color:var(--gray); margin-top:8px; font-weight:500;"></p>';
     h+='</div>';
@@ -663,27 +658,10 @@ tr.expense-row:hover td { background: #f0fdf4; }
     root.querySelectorAll("[data-remove-ks-row]").forEach(function(btn){ btn.addEventListener("click",function(){ var ks=btn.getAttribute("data-remove-ks-row"), roomId=btn.getAttribute("data-room-id"), rowId=btn.getAttribute("data-row-id"), n=clone(state.data), r=n.rooms.find(function(x){return x.id===roomId;}); if(!r||!r[ks]||!r[ks].rows) return; if(r[ks].rows.length<=1) return; r[ks].rows=r[ks].rows.filter(function(x){return x.id!==rowId;}); scheduleSave(n); }); });
 
     var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
-    root.querySelectorAll("[data-add-member]").forEach(function(btn){ btn.addEventListener("click",function(){ var fam=btn.getAttribute("data-add-member"); addRow("members",function(){ return {id:uid(),family:fam,name:"",type:"ADT",ageNote:"",idNumber:"",phone:"",special:""}; }); }); });
-
+    
     root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
     root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
-    
-    // 🟢 SỬA LỖI TÌM SAI NÚT Ở ĐÂY ĐỂ ĐẢM BẢO KHÔNG TRẮNG TRANG
     root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
-
-    if (window.google && google.maps && google.maps.places) {
-      root.querySelectorAll('input[data-field$=".hotel"]').forEach(function(inputEl) {
-        if (inputEl.hasAttribute('data-places-attached')) return;
-        inputEl.setAttribute('data-places-attached', 'true');
-        var autocomplete = new google.maps.places.Autocomplete(inputEl, { fields: ["name", "formatted_address", "formatted_phone_number", "url"], types: ["establishment"] });
-        autocomplete.addListener("place_changed", function() {
-          var place = autocomplete.getPlace(); if (!place.geometry) return;
-          var roomId = inputEl.getAttribute('data-id'), ks = inputEl.getAttribute('data-field').split('.')[0];
-          var n = clone(state.data), r = n.rooms.find(function(x) { return x.id === roomId; });
-          if (r && r[ks]) { r[ks].hotel = place.name || ""; r[ks].address = place.url || place.formatted_address || ""; r[ks].phone = place.formatted_phone_number || ""; scheduleSave(n); }
-        });
-      });
-    }
 
     // 🟢 LẬP TRÌNH BÓC TÁCH VÀ LÀM SẠCH MÔ TẢ CHO NÚT ➕ CẬP NHẬT CHI PHÍ
     var quickAddBtn = document.getElementById("quick-add-btn");
@@ -726,15 +704,11 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
         // 4. LÀM SẠCH MÔ TẢ (Xóa bỏ ngày tháng, số tiền và các từ nối thừa)
         var cleanDesc = textVal;
-        // Xóa cụm ngày tháng
         cleanDesc = cleanDesc.replace(/(?:ngày\s+)?\d{1,2}(?:\s+tháng\s+\d{1,2})?/gi, "");
         cleanDesc = cleanDesc.replace(/\b\d{1,2}\/\d{1,2}\b/g, "");
-        // Xóa cụm số tiền và từ nối "là", "hết", "tốn"
         cleanDesc = cleanDesc.replace(/(?:là|hết|tốn|tổng)?\s*\d+[\.,]?\d*\s*(?:triệu|tr|k|ngàn|đ|₫)?/gi, "");
         cleanDesc = cleanDesc.replace(/\b\d{1,3}(?:[\.,]\d{3})+\b/g, "");
-        // Xóa tên nhà nếu có trong câu để mô tả ngắn gọn nhất
         cleanDesc = cleanDesc.replace(/(?:do\s+)?(?:nhà\s+)?(tú|thi|dung|ob nội)/gi, "");
-        // Chuẩn hóa khoảng trắng
         cleanDesc = cleanDesc.replace(/\s+/g, " ").trim();
         if (cleanDesc) {
           cleanDesc = cleanDesc.charAt(0).toUpperCase() + cleanDesc.slice(1);
@@ -758,13 +732,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
         document.getElementById("ai-input").value = "";
         document.getElementById("ai-status").innerHTML = "✅ Đã thêm và làm sạch dữ liệu!";
-        quickAddBtn.style.display = "none";
-        setTab("expenses");
-      });
-    }
-
-        document.getElementById("ai-input").value = "";
-        document.getElementById("ai-status").innerHTML = "✅ Đã thêm nhanh vào bảng Chi phí!";
         quickAddBtn.style.display = "none";
         setTab("expenses");
       });
