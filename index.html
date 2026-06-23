@@ -43,8 +43,8 @@ body {
   content: '';
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at 15% 30%, rgba(255,201,60,0.35) 0%, transparent 55%),
-              radial-gradient(ellipse at 85% 15%, rgba(255,111,168,0.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 95%, rgba(6,174,213,0.35) 0%, transparent 55%);
+               radial-gradient(ellipse at 85% 15%, rgba(255,111,168,0.3) 0%, transparent 50%),
+               radial-gradient(ellipse at 70% 95%, rgba(6,174,213,0.35) 0%, transparent 55%);
   pointer-events: none;
 }
 .hero-content { position: relative; z-index: 1; }
@@ -181,7 +181,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
   function uid() { return Math.random().toString(36).slice(2,10); }
   function esc(s) {
-    return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    return String(s==null?"":s).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");
   }
   function vnd(n) { return (Number(n)||0).toLocaleString("vi-VN")+" ₫"; }
   function fmtDate(iso) { if(!iso) return "—"; var p=iso.split("-"); return p[2]+"/"+p[1]; }
@@ -409,6 +409,10 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<label for="ai-file" style="cursor:pointer; background:#fff; border:1px solid var(--teal); padding:9px 14px; border-radius:8px; display:flex; align-items:center; color:var(--teal); font-weight:600; font-size:12px;">📷 Đính ảnh</label>';
     h+='<input type="file" id="ai-file" accept="image/*" style="display:none;" />';
     h+='<button id="ai-btn" style="cursor:pointer; background:var(--teal); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-weight:600; font-family:inherit; font-size:12px;">Xử lý ngay</button>';
+    
+    // 🟢 ĐÃ THÊM NÚT CẬP NHẬT CHI PHÍ NGAY CẠNH NÚT XỬ LÝ NGAY (MẶC ĐỊNH ẨN)
+    h+='<button id="quick-add-btn" style="cursor:pointer; display:none; background:#10B981; color:#fff; border:none; padding:10px 14px; border-radius:8px; font-weight:600; font-size:12px;">➕ Cập nhật chi phí</button>';
+    
     h+='</div>';
     h+='<p id="ai-status" style="font-size:12px; color:var(--gray); margin-top:8px; font-weight:500;"></p>';
     h+='</div>';
@@ -598,10 +602,13 @@ tr.expense-row:hover td { background: #f0fdf4; }
     };
     recognition.onerror = () => { statusEl.innerHTML = "❌ Lỗi ghi âm. Hãy kiểm tra lại quyền truy cập Mic của trình duyệt."; resetMic(); };
     recognition.onend = () => { resetMic(); };
+    
+    // 🟢 LẬP TRÌNH KHI NHẬN DIỆN GIỌNG NÓI XONG SẼ HIỆN NÚT CẬP NHẬT NHANH LÊN
     recognition.onresult = (e) => {
       const resultText = e.results[0][0].transcript;
       inputEl.value = resultText;
-      statusEl.innerHTML = `✓ Điền chữ: "${resultText}". Nhấn "Xử lý ngay" để chạy AI.`;
+      statusEl.innerHTML = `✓ Điền chữ: "${resultText}". Nhấn ➕ **Cập nhật chi phí** bên cạnh để thêm nhanh.`;
+      document.getElementById("quick-add-btn").style.display = "flex";
     };
 
     function resetMic() { micBtn.style.background = "#fff"; micBtn.style.color = "#7c3aed"; micBtn.style.borderColor = "#7c3aed"; micBtn.innerHTML = "🎙️ Nói"; }
@@ -657,7 +664,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
     root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
     root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
-    root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
+    root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
 
     if (window.google && google.maps && google.maps.places) {
       root.querySelectorAll('input[data-field$=".hotel"]').forEach(function(inputEl) {
@@ -670,6 +677,33 @@ tr.expense-row:hover td { background: #f0fdf4; }
           var n = clone(state.data), r = n.rooms.find(function(x) { return x.id === roomId; });
           if (r && r[ks]) { r[ks].hotel = place.name || ""; r[ks].address = place.url || place.formatted_address || ""; r[ks].phone = place.formatted_phone_number || ""; scheduleSave(n); }
         });
+      });
+    }
+
+    // 🟢 LẬP TRÌNH LỆNH THỰC THI KHI BẤM NÚT ➕ CẬP NHẬT CHI PHÍ
+    var quickAddBtn = document.getElementById("quick-add-btn");
+    if (quickAddBtn) {
+      quickAddBtn.addEventListener("click", function() {
+        var textVal = document.getElementById("ai-input").value.trim();
+        if (!textVal) return;
+
+        addRow("expenses", function() {
+          return { 
+            id: uid(), 
+            date: "2026-07-22", 
+            category: "🍜 Ăn uống", 
+            description: textVal, 
+            family: "Tất cả", 
+            amount: 0, 
+            payer: "", 
+            note: "Điền nhanh từ giọng nói" 
+          };
+        });
+
+        document.getElementById("ai-input").value = "";
+        document.getElementById("ai-status").innerHTML = "✅ Đã thêm nhanh vào bảng Chi phí!";
+        quickAddBtn.style.display = "none";
+        setTab("expenses");
       });
     }
   }
