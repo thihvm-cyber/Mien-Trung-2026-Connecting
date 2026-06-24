@@ -476,11 +476,19 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
   function dayTotal(day){ return (day.locations||[]).reduce(function(s,l){return s+(Number(l.cost)||0);},0) + (day.meals||[]).reduce(function(s,m){return s+(Number(m.cost)||0);},0); }
 
-  function renderItinListSection(day, listKey, icon_, label, placeholder){
+  function renderItinListSection(day, listKey, icon_, label, placeholder, showMapLink){
     var list = day[listKey] || [], h = '<div style="margin-bottom:14px;"><p class="field-label">'+icon_+' '+label+'</p>';
     list.forEach(function(item){
-      h+='<div class="grid-2" style="gap:8px;margin-bottom:6px;align-items:center;"><input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="name" value="'+esc(item.name)+'" placeholder="'+placeholder+'" class="'+((!item.name)?"needs-fill":"")+'" />';
-      h+='<div style="display:flex;gap:6px;align-items:center;"><input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="cost" data-type="number" value="'+(item.cost||0)+'" placeholder="Chi phí" style="text-align:right;" /><button class="icon-btn" data-remove-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" title="Xóa dòng">'+icon("trash")+'</button></div></div>';
+      var nameTrimmed = String(item.name||"").trim();
+      var mapsUrl = (showMapLink && nameTrimmed) ? (/^https?:\/\//.test(nameTrimmed) ? nameTrimmed : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(nameTrimmed)) : null;
+      h+='<div style="margin-bottom:6px;">';
+      h+='<div style="display:flex;gap:8px;align-items:center;">';
+      h+='<input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="name" value="'+esc(item.name)+'" placeholder="'+placeholder+'" class="'+((!item.name)?"needs-fill":"")+'" style="flex:1;min-width:0;" />';
+      h+='<input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="cost" data-type="number" value="'+(item.cost||0)+'" placeholder="Chi phí" style="text-align:right;width:100px;flex-shrink:0;" />';
+      h+='<button class="icon-btn" data-remove-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" title="Xóa dòng" style="flex-shrink:0;">'+icon("trash")+'</button>';
+      h+='</div>';
+      if(mapsUrl) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-top:5px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
+      h+='</div>';
     });
     return h+'<button class="add-btn" data-add-itin-item="'+listKey+'" data-day-id="'+day.id+'" style="padding:6px 10px;font-size:12px;margin-top:2px;">'+icon("plus")+' Thêm '+label.toLowerCase()+'</button></div>';
   }
@@ -489,7 +497,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     var h="";
     state.data.itinerary.forEach(function(day){
       h+='<div class="card card-day"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="day-index">'+day.dayIndex+'</div><input type="date" data-row="itinerary" data-id="'+day.id+'" data-field="date" value="'+esc(day.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="font-size:14px;font-weight:700;color:#3C3489;">'+vnd(dayTotal(day))+'</div></div>';
-      h+=renderItinListSection(day,"locations","📍","Địa điểm","VD: Bãi biển Mỹ Khê"); h+=renderItinListSection(day,"meals","🍜","Ăn uống","VD: Bún chả cá");
+      h+=renderItinListSection(day,"locations","📍","Địa điểm","VD: Bãi biển Mỹ Khê",true); h+=renderItinListSection(day,"meals","🍜","Ăn uống","VD: Bún chả cá",false);
       h+='<div><p class="field-label-sm">📝 Ghi chú</p><input data-row="itinerary" data-id="'+day.id+'" data-field="note" value="'+esc(day.note)+'" placeholder="Lưu ý thêm" /></div></div>';
     });
     return h;
@@ -512,7 +520,10 @@ tr.expense-row:hover td { background: #f0fdf4; }
         var k=safeKs(r,ks), ksSub = k.rows.reduce(function(s,row){return s+rowTotal(row);},0), ksDep = k.rows.reduce(function(s,row){return s+(Number(row.deposit)||0);},0);
         h+='<div style="border:1px solid var(--border);border-radius:var(--radius-md);padding:10px;"><div style="font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">🏨 Khách sạn '+(ksi===0?"A":"B")+'</div>';
         h+='<input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.hotel" value="'+esc(k.hotel)+'" placeholder="Tên khách sạn" class="'+((!k.hotel)?"needs-fill":"")+'" style="font-weight:500;margin-bottom:6px;" />';
-        h+='<div class="grid-2" style="gap:6px;margin-bottom:6px;"><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.address" value="'+esc(k.address)+'" placeholder="Địa chỉ tự điền" style="font-size:11px;" readonly /><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.phone" value="'+esc(k.phone)+'" placeholder="SĐT tự điền" style="font-size:11px;" readonly /></div>';
+        var addrTrimmed = String(k.address||"").trim();
+        var mapsUrl = addrTrimmed ? (/^https?:\/\//.test(addrTrimmed) ? addrTrimmed : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(addrTrimmed)) : null;
+        h+='<div class="grid-2" style="gap:6px;margin-bottom:6px;"><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.address" value="'+esc(k.address)+'" placeholder="Dán link Google Maps" style="font-size:11px;" /><input data-row="rooms" data-id="'+r.id+'" data-field="'+ks+'.phone" value="'+esc(k.phone)+'" placeholder="SĐT khách sạn" style="font-size:11px;" /></div>';
+        if(mapsUrl) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-bottom:8px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
         h+='<div style="overflow-x:auto;"><table style="font-size:11px;"><thead><tr>';
         
         ["Nhà","Giá/đêm","Cọc","Còn",""].forEach(function(col){ var align=(col==="Giá/đêm"||col==="Cọc"||col==="Còn")?"right":"left"; h+='<th style="padding:4px 6px;text-align:'+align+';">'+col+'</th>'; }); 
@@ -520,7 +531,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
         h+='</tr></thead><tbody>';
         k.rows.forEach(function(row){
           var sub=rowTotal(row), dep=Number(row.deposit)||0, rem=sub-dep;
-          h+='<tr><td style="padding:4px 6px;min-width:90px;"><select data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="Smile" data-row-id="'+row.id+'" data-row-field="family" style="font-size:11px;padding:4px 6px;">'+selOpts(FAM_OPTIONS,row.family)+'</select></td>';
+          h+='<tr><td style="padding:4px 6px;min-width:90px;"><select data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="family" style="font-size:11px;padding:4px 6px;">'+selOpts(FAM_OPTIONS,row.family)+'</select></td>';
           h+='<td style="padding:4px 6px;min-width:90px;"><input class="needs-fill" data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="pricePerNight" data-type="number" value="'+(row.pricePerNight||0)+'" style="font-size:11px;padding:4px 6px;text-align:right;" /></td>';
           h+='<td style="padding:4px 6px;min-width:90px;"><input data-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" data-row-field="deposit" data-type="number" value="'+dep+'" style="font-size:11px;padding:4px 6px;text-align:right;" /></td>';
           h+='<td style="padding:4px 6px;text-align:right;font-weight:600;white-space:nowrap;color:'+(rem>0?"#991b1b":"#065f46")+';">'+vnd(rem)+'</td><td><button class="icon-btn" data-remove-ks-row="'+ks+'" data-room-id="'+r.id+'" data-row-id="'+row.id+'" title="Xóa dòng">'+icon("trash")+'</button></td></tr>';
