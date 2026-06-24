@@ -106,7 +106,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shado
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 .grid-coord { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
-@media (max-width: 580px) { .grid-2, .grid-3, .grid-coord { grid-template-columns: 1fr; } }
+@media (max-width: 580px) { .grid-2, .grid-3, .grid-coord, .itin-grid { grid-template-columns: 1fr; } }
 
 .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; display: inline-block; }
 
@@ -214,7 +214,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
         {id:uid(),family:"Nhà Dung",name:"",type:"CHD",ageNote:"13 tuổi",idNumber:"",phone:"",special:""},
         {id:uid(),family:"Nhà Dung",name:"",type:"CHD",ageNote:"11 tuổi",idNumber:"",phone:"",special:""}
       ],
-      itinerary: Array.from({length:5},function(_,i){ return {id:uid(),dayIndex:i+1,date:"",locations:[{id:uid(),name:"",cost:0}],meals:[{id:uid(),name:"",cost:0}],note:""}; }),
+      itinerary: Array.from({length:5},function(_,i){ return {id:uid(),dayIndex:i+1,date:"",locations:[{id:uid(),name:"",time:"",mapLink:"",cost:0,rating:""}],note:""}; }),
       rooms: Array.from({length:5},function(_,i){
         return {
           id:uid(), nightIndex:i+1, date:"",
@@ -274,9 +274,12 @@ tr.expense-row:hover td { background: #f0fdf4; }
       return {id:r.id||uid(), nightIndex:r.nightIndex||i+1, date:r.date||"", ksA: up(r.ksA,["Nhà Tú","Nhà Thi"]), ksB: up(r.ksB,["OB Nội","Nhà Dung"]), note:r.note||""};
     });
     m.itinerary = m.itinerary.map(function(d,i){
-      var locations = (d.locations && d.locations.length) ? d.locations.map(function(l){ return {id:l.id||uid(), name:l.name||"", cost:l.cost||0}; }) : (d.location ? [{id:uid(), name:d.location, cost:d.estCost||0}] : [{id:uid(), name:"", cost:0}]);
-      var meals = (d.meals && d.meals.length) ? d.meals.map(function(mm){ return {id:mm.id||uid(), name:mm.name||"", cost:mm.cost||0}; }) : (d.mealNote ? [{id:uid(), name:d.mealNote, cost:0}] : [{id:uid(), name:"", cost:0}]);
-      return {id:d.id||uid(), dayIndex:d.dayIndex||i+1, date:d.date||"", locations:locations, meals:meals, note:d.note||""};
+      var locations = (d.locations && d.locations.length) ? d.locations.map(function(l){
+        var name = l.name||"", mapLink = l.mapLink||"";
+        if(!mapLink && /^https?:\/\//.test(String(name).trim())){ mapLink = name; name = ""; }
+        return {id:l.id||uid(), name:name, time:l.time||"", mapLink:mapLink, cost:l.cost||0, rating:l.rating||""};
+      }) : (d.location ? [{id:uid(), name:d.location, time:"", mapLink:"", cost:d.estCost||0, rating:""}] : [{id:uid(), name:"", time:"", mapLink:"", cost:0, rating:""}]);
+      return {id:d.id||uid(), dayIndex:d.dayIndex||i+1, date:d.date||"", locations:locations, note:d.note||""};
     });
     return m;
   }
@@ -354,9 +357,7 @@ tr.expense-row:hover td { background: #f0fdf4; }
     h+='<button id="sync-btn" class="sync-btn"><span class="'+(spinning?"spin":"")+'" style="display:flex;">'+icon("refresh")+'</span><span>'+syncLabel()+'</span></button>';
     h+='</div>';
     h+='<div class="hero-meta">';
-    h+='<span class="hero-badge">📅 '+fmtDate(info.startDate)+' – '+fmtDate(info.endDate)+'</span>';
     h+='<span class="hero-badge">☀️ 22/07 – 26/07 · '+info.numDays+' ngày</span>';
-    h+='<span class="hero-badge">👥 15 khách · 4 nhà</span>';
     h+='</div>';
     if(state.syncState==="nofb"||state.syncState==="error"){
       h+='<div class="alert-bar alert-danger">'+icon("alert")+'<span>'+esc(state.error||"Lỗi kết nối Firebase")+'</span></div>';
@@ -374,22 +375,18 @@ tr.expense-row:hover td { background: #f0fdf4; }
     return h+'</div>';
   }
 
-  function itinLocationsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.locations||[]).reduce(function(s2,l){return s2+(Number(l.cost)||0);},0); },0); }
-  function itinMealsTotal(){ return state.data.itinerary.reduce(function(s,d){ return s+(d.meals||[]).reduce(function(s2,m){return s2+(Number(m.cost)||0);},0); },0); }
 
   function renderOverview(){
     var data=state.data;
     var totalGuests=data.families.reduce(function(s,f){return s+f.adt+f.chd+f.senior;},0);
     
     // Cộng dồn mọi ngóc ngách
-    var locTotal=itinLocationsTotal();
-    var mealTotal=itinMealsTotal();
     var roomTotal=data.rooms.reduce(function(s,r){return s+roomNightTotal(r);},0);
     var roomPF=data.families.map(function(f){return roomCostByFamily(f.name);});
     var otherTotal=Number(data.otherCost)||0;
     var expensesTotal = data.expenses.reduce(function(s,e){return s+(Number(e.amount)||0);},0);
     
-    var grandTotal=locTotal+mealTotal+roomTotal+otherTotal+expensesTotal;
+    var grandTotal=roomTotal+otherTotal+expensesTotal;
     
     var h="";
 
@@ -438,8 +435,6 @@ tr.expense-row:hover td { background: #f0fdf4; }
       var extraSum = 0;
       var pfExtra = data.families.map(function(){ return 0; }); 
       if (cat === "🏨 Khách sạn") { extraSum = roomTotal; pfExtra = roomPF; }
-      else if (cat === "🍜 Ăn uống") { extraSum = mealTotal; }
-      else if (cat === "🎡 Tham quan") { extraSum = locTotal; }
       
       var rowTotal = catSum + extraSum;
 
@@ -474,30 +469,48 @@ tr.expense-row:hover td { background: #f0fdf4; }
     return h;
   }
 
-  function dayTotal(day){ return (day.locations||[]).reduce(function(s,l){return s+(Number(l.cost)||0);},0) + (day.meals||[]).reduce(function(s,m){return s+(Number(m.cost)||0);},0); }
+  function timeDropdowns(day, item){
+    var parts = String(item.time||"").split(":");
+    var hh = parts[0] || "", mm = parts[1] || "";
+    var hourOpts = ['<option value="">--</option>'];
+    for(var h=0; h<24; h++){ var v=(h<10?"0":"")+h; hourOpts.push('<option value="'+v+'"'+(v===hh?" selected":"")+'>'+v+'</option>'); }
+    var minOpts = ['<option value="">--</option>','<option value="00"'+(mm==="00"?" selected":"")+'>00</option>','<option value="30"'+(mm==="30"?" selected":"")+'>30</option>'];
+    var r = '<div style="display:flex;gap:4px;align-items:center;">';
+    r+='<select data-itin-time="hh" data-day-id="'+day.id+'" data-item-id="'+item.id+'" style="flex:1;">'+hourOpts.join("")+'</select>';
+    r+='<span style="color:var(--gray);">:</span>';
+    r+='<select data-itin-time="mm" data-day-id="'+day.id+'" data-item-id="'+item.id+'" style="flex:1;">'+minOpts.join("")+'</select>';
+    r+='</div>';
+    return r;
+  }
 
-  function renderItinListSection(day, listKey, icon_, label, placeholder, showMapLink){
-    var list = day[listKey] || [], h = '<div style="margin-bottom:14px;"><p class="field-label">'+icon_+' '+label+'</p>';
-    list.forEach(function(item){
-      var nameTrimmed = String(item.name||"").trim();
-      var mapsUrl = (showMapLink && nameTrimmed) ? (/^https?:\/\//.test(nameTrimmed) ? nameTrimmed : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(nameTrimmed)) : null;
-      h+='<div style="margin-bottom:6px;">';
-      h+='<div style="display:flex;gap:8px;align-items:center;">';
-      h+='<input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="name" value="'+esc(item.name)+'" placeholder="'+placeholder+'" class="'+((!item.name)?"needs-fill":"")+'" style="flex:1;min-width:0;" />';
-      h+='<input data-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="cost" data-type="number" value="'+(item.cost||0)+'" placeholder="Chi phí" style="text-align:right;width:100px;flex-shrink:0;" />';
-      h+='<button class="icon-btn" data-remove-itin-item="'+listKey+'" data-day-id="'+day.id+'" data-item-id="'+item.id+'" title="Xóa dòng" style="flex-shrink:0;">'+icon("trash")+'</button>';
-      h+='</div>';
-      if(mapsUrl) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-top:5px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
-      h+='</div>';
-    });
-    return h+'<button class="add-btn" data-add-itin-item="'+listKey+'" data-day-id="'+day.id+'" style="padding:6px 10px;font-size:12px;margin-top:2px;">'+icon("plus")+' Thêm '+label.toLowerCase()+'</button></div>';
+  function renderLocationItem(day, item){
+    var nameTrimmed = String(item.mapLink||"").trim();
+    var mapsUrl = nameTrimmed ? (/^https?:\/\//.test(nameTrimmed) ? nameTrimmed : "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(nameTrimmed)) : null;
+    var h = '<div style="border:1px solid var(--border);border-radius:var(--radius-md);padding:10px;margin-bottom:8px;">';
+    h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">';
+    h+='<div class="itin-grid" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;flex:1;">';
+    h+='<div>';
+    h+='<p class="field-label-sm">📍 Địa điểm</p>';
+    h+='<input data-itin-item="locations" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="name" value="'+esc(item.name)+'" placeholder="VD: Bãi biển Mỹ Khê" class="'+((!item.name)?"needs-fill":"")+'" style="margin-bottom:5px;" />';
+    h+='<input data-itin-item="locations" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="mapLink" value="'+esc(item.mapLink)+'" placeholder="Dán link Google Maps" />';
+    if(mapsUrl) h+='<a class="map-link" href="'+mapsUrl+'" target="_blank" rel="noreferrer" style="font-size:10px;padding:3px 8px;margin-top:5px;display:inline-flex;">'+icon("pin")+' Mở Maps</a>';
+    h+='</div>';
+    h+='<div><p class="field-label-sm">🕐 Giờ đến (24h)</p>'+timeDropdowns(day,item)+'<p class="field-label-sm" style="margin-top:5px;">💰 Chi phí dự tính</p><input data-itin-item="locations" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="cost" data-type="number" value="'+(item.cost||0)+'" /></div>';
+    h+='<div><p class="field-label-sm">⭐ Đánh giá</p><input data-itin-item="locations" data-day-id="'+day.id+'" data-item-id="'+item.id+'" data-item-field="rating" value="'+esc(item.rating)+'" placeholder="VD: 4,7/5" /></div>';
+    h+='</div>';
+    h+='<button class="icon-btn" data-remove-itin-item="locations" data-day-id="'+day.id+'" data-item-id="'+item.id+'" title="Xóa điểm đến" style="flex-shrink:0;align-self:start;">'+icon("trash")+'</button>';
+    h+='</div>';
+    h+='</div>';
+    return h;
   }
 
   function renderItinerary(){
     var h="";
     state.data.itinerary.forEach(function(day){
-      h+='<div class="card card-day"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="day-index">'+day.dayIndex+'</div><input type="date" data-row="itinerary" data-id="'+day.id+'" data-field="date" value="'+esc(day.date)+'" style="width:auto;" /><span style="flex:1;"></span><div style="font-size:14px;font-weight:700;color:#3C3489;">'+vnd(dayTotal(day))+'</div></div>';
-      h+=renderItinListSection(day,"locations","📍","Địa điểm","VD: Bãi biển Mỹ Khê",true); h+=renderItinListSection(day,"meals","🍜","Ăn uống","VD: Bún chả cá",false);
+      h+='<div class="card card-day"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div class="day-index">'+day.dayIndex+'</div><input type="date" data-row="itinerary" data-id="'+day.id+'" data-field="date" value="'+esc(day.date)+'" style="width:auto;" /></div>';
+      h+='<p class="field-label">📍 Địa điểm</p>';
+      (day.locations||[]).forEach(function(item){ h+=renderLocationItem(day, item); });
+      h+='<button class="add-btn" data-add-itin-item="locations" data-day-id="'+day.id+'" style="padding:6px 10px;font-size:12px;margin-top:2px;margin-bottom:14px;">'+icon("plus")+' Thêm địa điểm</button>';
       h+='<div><p class="field-label-sm">📝 Ghi chú</p><input data-row="itinerary" data-id="'+day.id+'" data-field="note" value="'+esc(day.note)+'" placeholder="Lưu ý thêm" /></div></div>';
     });
     return h;
@@ -687,8 +700,23 @@ tr.expense-row:hover td { background: #f0fdf4; }
 
     var aeb=document.getElementById("add-expense-btn"); if(aeb) aeb.addEventListener("click",function(){ addRow("expenses",function(){ return {id:uid(),date:"",category:EXPENSE_CATEGORIES[0],description:"",family:"Tất cả",amount:0,payer:"",note:""}; }); });
     
-    root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener("blur",commit); });
-    root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",cost:0}); scheduleSave(n); }); });
+    root.querySelectorAll("[data-itin-item]").forEach(function(el){ var commit=function(){ var listKey=el.getAttribute("data-itin-item"), dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), field=el.getAttribute("data-item-field"), val=el.getAttribute("data-type")==="number"?(parseInt(String(el.value).replace(/[^\d-]/g,""))||0):el.value; var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; var item=day[listKey].find(function(x){return x.id===itemId;}); if(!item) return; item[field]=val; scheduleSave(n); }; el.addEventListener((el.type==="time"||el.type==="date"||el.tagName==="SELECT")?"change":"blur",commit); });
+
+    root.querySelectorAll("[data-itin-time]").forEach(function(el){
+      el.addEventListener("change", function(){
+        var dayId=el.getAttribute("data-day-id"), itemId=el.getAttribute("data-item-id"), part=el.getAttribute("data-itin-time");
+        var n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;});
+        if(!day) return;
+        var item=day.locations.find(function(x){return x.id===itemId;});
+        if(!item) return;
+        var parts = String(item.time||"").split(":");
+        var hh = parts[0]||"", mm = parts[1]||"";
+        if(part==="hh") hh = el.value; else mm = el.value;
+        item.time = (hh || mm) ? (hh+":"+mm) : "";
+        scheduleSave(n);
+      });
+    });
+    root.querySelectorAll("[data-add-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-add-itin-item"), dayId=btn.getAttribute("data-day-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day) return; if(!day[listKey]) day[listKey]=[]; day[listKey].push({id:uid(),name:"",time:"",mapLink:"",cost:0,rating:""}); scheduleSave(n); }); });
     root.querySelectorAll("[data-remove-itin-item]").forEach(function(btn){ btn.addEventListener("click",function(){ var listKey=btn.getAttribute("data-remove-itin-item"), dayId=btn.getAttribute("data-day-id"), itemId=btn.getAttribute("data-item-id"), n=clone(state.data), day=n.itinerary.find(function(x){return x.id===dayId;}); if(!day||!day[listKey]) return; if(day[listKey].length<=1) return; day[listKey]=day[listKey].filter(function(x){return x.id!==itemId;}); scheduleSave(n); }); });
 
     var quickAddBtn = document.getElementById("quick-add-btn");
